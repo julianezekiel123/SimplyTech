@@ -1,0 +1,74 @@
+---
+import { company, cta } from '../data/site'
+
+// A pre-filled email removes the "what do I even write" hesitation, which is
+// the main thing that costs you leads when the CTA is an email address.
+const mailto = `mailto:${company.email}?subject=${encodeURIComponent(cta.emailSubject)}&body=${encodeURIComponent(cta.emailBody)}`
+---
+
+<section id="contact" class="bg-ink-950 py-24 text-white md:py-32">
+  <div class="container-page">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="reveal text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">
+        {cta.eyebrow}
+      </p>
+      <h2
+        class="reveal mt-4 font-display text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl"
+        data-reveal-delay="60"
+      >
+        {cta.headline}
+      </h2>
+      <p class="reveal mt-6 text-lg leading-relaxed text-ink-300" data-reveal-delay="120">
+        {cta.body}
+      </p>
+
+      <div
+        class="reveal mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center"
+        data-reveal-delay="180"
+      >
+        <a
+          href={mailto}
+          class="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-ink-950 transition-all hover:bg-brand-50"
+        >
+          {company.email}
+          <svg
+            class="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16m0 0-6-6m6 6-6 6" />
+          </svg>
+        </a>
+        {
+          company.phones.map((p) => (
+            <a
+              href={`tel:${p.raw}`}
+              class="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-7 py-4 text-base font-semibold text-white transition-all hover:border-white/60 hover:bg-white/5"
+            >
+              {p.display}
+              <span class="rounded bg-white/10 px-1.5 py-0.5 text-[0.6875rem] font-bold tracking-wide text-ink-300">
+                {p.region}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      <dl class="reveal mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm" data-reveal-delay="220">
+        <div class="flex items-center gap-2">
+          <dt class="sr-only">Response time</dt>
+          <span class="h-1.5 w-1.5 rounded-full bg-brand-400" aria-hidden="true"></span>
+          <dd class="text-ink-300">{company.responseTime}</dd>
+        </div>
+        <div class="flex items-center gap-2">
+          <dt class="sr-only">Hours</dt>
+          <span class="h-1.5 w-1.5 rounded-full bg-brand-400" aria-hidden="true"></span>
+          <dd class="text-ink-300">{company.hours}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>

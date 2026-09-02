@@ -1,0 +1,98 @@
+---
+import SectionHeading from './SectionHeading.astro'
+import { commercials, founding, showStartingPrice, startingPrice, company, cta } from '../data/site'
+
+const mailto = `mailto:${company.email}?subject=${encodeURIComponent('Founding client inquiry')}&body=${encodeURIComponent(cta.emailBody)}`
+---
+
+<section id="pricing" class="bg-white py-24 md:py-32">
+  <div class="container-page">
+    <SectionHeading
+      eyebrow={commercials.eyebrow}
+      headline={commercials.headline}
+      intro={commercials.intro}
+    />
+
+    {
+      showStartingPrice && (
+        <p class="reveal mt-10 text-center">
+          <span class="font-display text-5xl font-extrabold tracking-tight text-ink-950">
+            {startingPrice}
+          </span>
+          <span class="ml-2 text-ink-500">per month, all in</span>
+        </p>
+      )
+    }
+
+    {/* The four terms that answer "what am I actually agreeing to" */}
+    <div class="mt-14 grid gap-px overflow-hidden rounded-3xl border border-ink-200 bg-ink-200 sm:grid-cols-2">
+      {
+        commercials.terms.map((term, i) => (
+          <div class="reveal bg-white p-8" data-reveal-delay={i * 70}>
+            <h3 class="flex items-center gap-2.5 font-display text-base font-bold text-ink-950">
+              <svg
+                class="h-5 w-5 shrink-0 text-brand-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.25"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+              </svg>
+              {term.title}
+            </h3>
+            <p class="mt-3 leading-relaxed text-ink-600">{term.body}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    {/* Founding client offer — the honest replacement for case studies */}
+    <div class="reveal mt-8 overflow-hidden rounded-3xl bg-ink-950 p-8 text-white md:p-12">
+      <div class="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">
+            {founding.eyebrow}
+          </p>
+          <h3 class="mt-4 font-display text-2xl font-extrabold leading-tight text-white md:text-3xl">
+            {founding.headline}
+          </h3>
+          <div class="mt-6 space-y-4">
+            {founding.body.map((para) => <p class="leading-relaxed text-ink-300">{para}</p>)}
+          </div>
+        </div>
+
+        <div class="lg:pt-14">
+          <ul class="space-y-3.5">
+            {
+              founding.terms.map((term) => (
+                <li class="flex items-start gap-3 text-sm leading-snug text-ink-200">
+                  <svg
+                    class="mt-0.5 h-4 w-4 shrink-0 text-brand-400"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                  </svg>
+                  {term}
+                </li>
+              ))
+            }
+          </ul>
+
+          <a
+            href={mailto}
+            class="mt-8 flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink-950 transition-all hover:bg-brand-50"
+          >
+            Ask about founding rates
+          </a>
+          <p class="mt-3 text-center text-xs text-ink-400">{founding.spotsNote}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

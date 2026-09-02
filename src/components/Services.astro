@@ -1,0 +1,74 @@
+---
+import SectionHeading from './SectionHeading.astro'
+import { company, services, alsoAvailable, cta } from '../data/site'
+
+const mailto = `mailto:${company.email}?subject=${encodeURIComponent(cta.emailSubject)}`
+---
+
+<section id="services" class="bg-ink-50/60 py-24 md:py-32">
+  <div class="container-page">
+    <SectionHeading
+      eyebrow="What we do"
+      headline="Three jobs, and all three run without you."
+      intro="Answer the phone, reply fast enough to win, and chase the ones that go quiet. That is the whole system. We set it up, we run it, and you do not log into anything."
+    />
+
+    <div class="mt-16 grid gap-6 lg:grid-cols-3">
+      {
+        services.map((service, i) => (
+          <article
+            class="reveal group flex flex-col rounded-3xl border border-ink-100 bg-white p-8 transition-all duration-300 hover:border-ink-200 hover:shadow-xl hover:shadow-ink-950/[0.06]"
+            data-reveal-delay={i * 90}
+          >
+            <header>
+              <span
+                class="font-display text-xs font-bold tracking-[0.14em] text-ink-300"
+                aria-hidden="true"
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 class="mt-3 font-display text-xl font-extrabold text-ink-950">{service.name}</h3>
+              <p class="mt-1.5 text-sm font-semibold text-brand-600">{service.tagline}</p>
+            </header>
+
+            <p class="mt-5 leading-relaxed text-ink-600">{service.description}</p>
+
+            <div class="mt-7 border-t border-ink-100 pt-6">
+              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-ink-400">
+                What that means
+              </p>
+              <ul class="mt-4 space-y-3">
+                {service.deliverables.map((item) => (
+                  <li class="flex items-start gap-3 text-sm leading-snug text-ink-700">
+                    <svg
+                      class="mt-0.5 h-4 w-4 shrink-0 text-brand-500"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                    </svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    {/* The other work, kept deliberately quiet so it does not dilute the pitch */}
+    <div class="reveal mx-auto mt-10 flex max-w-3xl flex-col gap-2 rounded-2xl border border-dashed border-ink-200 bg-ink-50/50 px-7 py-6 sm:flex-row sm:items-baseline sm:gap-5">
+      <p class="shrink-0 text-sm font-bold text-ink-900">{alsoAvailable.headline}</p>
+      <p class="text-sm leading-relaxed text-ink-600">
+        {alsoAvailable.body}{' '}
+        <a href={mailto} class="font-semibold text-brand-600 underline underline-offset-4 hover:text-brand-700">
+          Just ask.
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

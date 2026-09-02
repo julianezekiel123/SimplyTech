@@ -1,0 +1,32 @@
+---
+import SectionHeading from './SectionHeading.astro'
+import { about } from '../data/site'
+---
+
+<section id="about" class="bg-ink-50/60 py-24 md:py-32">
+  <div class="container-page">
+    <div class="grid gap-14 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <SectionHeading eyebrow={about.eyebrow} headline={about.headline} align="left" />
+        <div class="reveal mt-7 space-y-5" data-reveal-delay="80">
+          {about.body.map((para) => <p class="text-lg leading-relaxed text-ink-600">{para}</p>)}
+        </div>
+      </div>
+
+      <ul class="space-y-4 lg:pt-16">
+        {
+          about.principles.map((principle, i) => (
+            <li
+              class="reveal rounded-2xl border border-ink-100 bg-white p-7"
+              data-reveal-delay={i * 80}
+            >
+              <h3 class="font-display text-base font-bold text-ink-950">{principle.title}</h3>
+              <p class="mt-2.5 leading-relaxed text-ink-600">{principle.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+  </div>
+</section>

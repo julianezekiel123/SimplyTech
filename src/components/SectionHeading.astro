@@ -1,0 +1,28 @@
+---
+/**
+ * Shared section header so every section on the page shares one rhythm:
+ * eyebrow, headline, optional intro paragraph.
+ */
+interface Props {
+  eyebrow: string
+  headline: string
+  intro?: string
+  align?: 'left' | 'center'
+  tone?: 'light' | 'dark'
+}
+
+const { eyebrow, headline, intro, align = 'center', tone = 'light' } = Astro.props
+
+const wrap = align === 'center' ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'
+const eyebrowColor = tone === 'dark' ? 'text-brand-300' : 'text-brand-600'
+const headlineColor = tone === 'dark' ? 'text-white' : 'text-ink-950'
+const introColor = tone === 'dark' ? 'text-ink-300' : 'text-ink-600'
+---
+
+<div class={`reveal ${wrap}`}>
+  <p class={`text-xs font-semibold uppercase tracking-[0.16em] ${eyebrowColor}`}>{eyebrow}</p>
+  <h2 class={`mt-4 font-display text-3xl font-extrabold leading-tight sm:text-4xl md:text-[2.75rem] ${headlineColor}`}>
+    {headline}
+  </h2>
+  {intro && <p class={`mt-5 text-lg leading-relaxed ${introColor}`}>{intro}</p>}
+</div>

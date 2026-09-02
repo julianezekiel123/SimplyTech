@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/* ============================================================
+   BRAND TOKENS
+   This is the only place colors and fonts are defined.
+   Swap the values here and the whole site follows.
+   ============================================================ */
+@theme {
+  /* --- Brand accent. Replace with your brand color. ---------
+     Generate a full ramp at https://uicolors.app if you change it. */
+  --color-brand-50:  #eef3ff;
+  --color-brand-100: #dbe4ff;
+  --color-brand-200: #bccdff;
+  --color-brand-300: #93aaff;
+  --color-brand-400: #687dff;
+  --color-brand-500: #4553f5;
+  --color-brand-600: #3238e0;
+  --color-brand-700: #2a2bb8;
+  --color-brand-800: #262894;
+  --color-brand-900: #242a75;
+
+  /* --- Ink: the near-black used for headlines and dark sections --- */
+  --color-ink-50:  #f6f7f9;
+  --color-ink-100: #eceef2;
+  --color-ink-200: #d5dae3;
+  --color-ink-300: #b0b9c9;
+  --color-ink-400: #8493aa;
+  --color-ink-500: #64748f;
+  --color-ink-600: #4e5c76;
+  --color-ink-700: #404b60;
+  --color-ink-800: #374052;
+  --color-ink-900: #0f1524;
+  --color-ink-950: #080c17;
+
+  /* --- Type --- */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor jumps so the sticky header doesn't cover section titles */
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: white;
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible focus ring for keyboard users, suppressed for mouse clicks */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 76rem;
+  padding-inline: 1.25rem;
+}
+
+/* Scroll-triggered reveal. Elements start hidden and fade up when
+   they enter the viewport (see the IntersectionObserver in Base.astro).
+   If JS is off or the user prefers reduced motion, they just show. */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer utilities {
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

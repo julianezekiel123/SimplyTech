@@ -1,0 +1,150 @@
+---
+import { company, nav } from '../data/site'
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-all duration-300"
+>
+  <div class="container-page">
+    <div class="flex h-16 items-center justify-between gap-6 md:h-20">
+      {/* Wordmark. Swap the span for an <img src="/logo.svg" /> when you have one. */}
+      <a href="#top" class="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-ink-950">
+        <span
+          class="grid h-8 w-8 place-items-center rounded-lg bg-ink-950 font-display text-sm font-extrabold text-white"
+          aria-hidden="true"
+        >
+          {company.name.charAt(0)}
+        </span>
+        {company.name}
+      </a>
+
+      <nav aria-label="Primary" class="hidden items-center gap-8 lg:flex">
+        {
+          nav.map((link) => (
+            <a
+              href={link.href}
+              class="text-sm font-medium text-ink-600 transition-colors hover:text-ink-950"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="hidden items-center gap-3 lg:flex">
+        <div class="flex flex-col items-end leading-tight">
+          {
+            company.phones.map((p) => (
+              <a
+                href={`tel:${p.raw}`}
+                class="text-xs font-medium text-ink-600 transition-colors hover:text-ink-950"
+              >
+                <span class="mr-1 font-bold text-ink-400">{p.region}</span>
+                {p.display}
+              </a>
+            ))
+          }
+        </div>
+        <a
+          href={`mailto:${company.email}`}
+          class="rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-brand-600"
+        >
+          Email us
+        </a>
+      </div>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="-mr-2 grid h-10 w-10 place-items-center rounded-lg text-ink-900 lg:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+          <path id="icon-open" stroke-linecap="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+          <path id="icon-close" class="hidden" stroke-linecap="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {/* Mobile panel */}
+  <div id="mobile-menu" class="hidden border-t border-ink-100 bg-white lg:hidden">
+    <nav aria-label="Mobile" class="container-page flex flex-col gap-1 py-4">
+      {
+        nav.map((link) => (
+          <a
+            href={link.href}
+            data-mobile-link
+            class="rounded-lg px-3 py-3 text-base font-medium text-ink-800 hover:bg-ink-50"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <div class="mt-3 flex flex-col gap-2 border-t border-ink-100 pt-4">
+        <a
+          href={`mailto:${company.email}`}
+          class="rounded-full bg-ink-950 px-5 py-3 text-center text-sm font-semibold text-white"
+        >
+          Email us
+        </a>
+        {
+          company.phones.map((p) => (
+            <a
+              href={`tel:${p.raw}`}
+              class="rounded-full border border-ink-200 px-5 py-3 text-center text-sm font-semibold text-ink-900"
+            >
+              Call {p.display} <span class="text-ink-400">({p.region})</span>
+            </a>
+          ))
+        }
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header')!
+  const toggle = document.getElementById('menu-toggle')!
+  const menu = document.getElementById('mobile-menu')!
+  const iconOpen = document.getElementById('icon-open')!
+  const iconClose = document.getElementById('icon-close')!
+
+  // The header is transparent over the hero and gains a solid background
+  // once the page scrolls, so the wordmark stays legible over content.
+  const setHeaderStyle = () => {
+    const scrolled = window.scrollY > 8
+    header.classList.toggle('bg-white/85', scrolled)
+    header.classList.toggle('backdrop-blur-md', scrolled)
+    header.classList.toggle('border-ink-100', scrolled)
+    header.classList.toggle('border-transparent', !scrolled)
+  }
+
+  setHeaderStyle()
+  window.addEventListener('scroll', setHeaderStyle, { passive: true })
+
+  const setMenu = (open: boolean) => {
+    menu.classList.toggle('hidden', !open)
+    iconOpen.classList.toggle('hidden', open)
+    iconClose.classList.toggle('hidden', !open)
+    toggle.setAttribute('aria-expanded', String(open))
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu')
+    // Lock the page behind the open panel.
+    document.body.style.overflow = open ? 'hidden' : ''
+  }
+
+  toggle.addEventListener('click', () => setMenu(menu.classList.contains('hidden')))
+  document
+    .querySelectorAll('[data-mobile-link]')
+    .forEach((link) => link.addEventListener('click', () => setMenu(false)))
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false)
+  })
+  // Close the panel if the viewport grows past the mobile breakpoint.
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+    if (e.matches) setMenu(false)
+  })
+</script>

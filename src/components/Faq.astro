@@ -1,0 +1,52 @@
+---
+import SectionHeading from './SectionHeading.astro'
+import { faqs } from '../data/site'
+---
+
+<section id="faq" class="bg-white py-24 md:py-32">
+  <div class="container-page">
+    <SectionHeading
+      eyebrow="Questions"
+      headline="The things people ask before they sign."
+      intro="Including the awkward ones. If yours is not here, ask it directly."
+    />
+
+    {/* Native <details> — accessible, keyboard-operable, and works with no JS. */}
+    <div class="mx-auto mt-14 max-w-3xl divide-y divide-ink-100 border-y border-ink-100">
+      {
+        faqs.map((faq, i) => (
+          <details class="reveal group" name="faq" data-reveal-delay={i * 50}>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left [&::-webkit-details-marker]:hidden">
+              <h3 class="font-display text-base font-bold text-ink-950 md:text-lg">
+                {faq.question}
+              </h3>
+              <span
+                class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-600 transition-all group-open:rotate-45 group-open:border-ink-950 group-open:bg-ink-950 group-open:text-white"
+                aria-hidden="true"
+              >
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+                </svg>
+              </span>
+            </summary>
+            <p class="pb-7 pr-14 leading-relaxed text-ink-600">{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+{/* FAQ structured data — can earn an expanded result in Google search. */}
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  })}
+/>

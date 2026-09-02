@@ -1,0 +1,238 @@
+---
+import SectionHeading from './SectionHeading.astro'
+import { calculator, company, cta } from '../data/site'
+
+const { missedCalls, closeRate, jobValue } = calculator.inputs
+---
+
+<section id="leak" class="bg-ink-950 py-24 text-white md:py-32">
+  <div class="container-page">
+    <SectionHeading
+      eyebrow={calculator.eyebrow}
+      headline={calculator.headline}
+      intro={calculator.intro}
+      tone="dark"
+    />
+
+    <div class="reveal mx-auto mt-14 max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]">
+      <div class="grid lg:grid-cols-[1.1fr_1fr]">
+        {/* Inputs */}
+        <div class="space-y-9 border-b border-white/10 p-8 md:p-10 lg:border-b-0 lg:border-r">
+          <div>
+            <div class="flex items-baseline justify-between gap-4">
+              <label for="calc-calls" class="text-sm font-semibold text-white">
+                {missedCalls.label}
+              </label>
+              <output
+                id="out-calls"
+                for="calc-calls"
+                class="font-display text-xl font-extrabold tabular-nums text-brand-300"
+              >
+                {missedCalls.default}
+              </output>
+            </div>
+            <input
+              type="range"
+              id="calc-calls"
+              min={missedCalls.min}
+              max={missedCalls.max}
+              step={missedCalls.step}
+              value={missedCalls.default}
+              class="calc-range mt-4"
+            />
+          </div>
+
+          <div>
+            <div class="flex items-baseline justify-between gap-4">
+              <label for="calc-rate" class="text-sm font-semibold text-white">
+                {closeRate.label}
+              </label>
+              <output
+                id="out-rate"
+                for="calc-rate"
+                class="font-display text-xl font-extrabold tabular-nums text-brand-300"
+              >
+                {closeRate.default}%
+              </output>
+            </div>
+            <input
+              type="range"
+              id="calc-rate"
+              min={closeRate.min}
+              max={closeRate.max}
+              step={closeRate.step}
+              value={closeRate.default}
+              class="calc-range mt-4"
+            />
+          </div>
+
+          <div>
+            <div class="flex items-baseline justify-between gap-4">
+              <label for="calc-value" class="text-sm font-semibold text-white">
+                {jobValue.label}
+              </label>
+              <output
+                id="out-value"
+                for="calc-value"
+                class="font-display text-xl font-extrabold tabular-nums text-brand-300"
+              >
+                ${jobValue.default}
+              </output>
+            </div>
+            <input
+              type="range"
+              id="calc-value"
+              min={jobValue.min}
+              max={jobValue.max}
+              step={jobValue.step}
+              value={jobValue.default}
+              class="calc-range mt-4"
+            />
+          </div>
+
+          <p class="border-t border-white/10 pt-6 text-xs leading-relaxed text-ink-400">
+            {calculator.disclaimer}
+          </p>
+        </div>
+
+        {/* Result */}
+        <div class="flex flex-col justify-center bg-white/[0.03] p-8 text-center md:p-10">
+          <p class="text-xs font-semibold uppercase tracking-[0.14em] text-ink-400">
+            {calculator.resultLabel}
+          </p>
+          <p
+            id="calc-result"
+            class="mt-4 font-display text-5xl font-extrabold tracking-tight text-white tabular-nums md:text-6xl"
+            aria-live="polite"
+          >
+            $0
+          </p>
+          <p class="mt-1.5 text-sm text-ink-400">
+            about <span id="calc-jobs" class="font-semibold text-ink-200">0</span> jobs a year
+          </p>
+
+          <p class="mt-7 text-sm leading-relaxed text-ink-300">{calculator.footnote}</p>
+
+          <a
+            id="calc-cta"
+            href={`mailto:${company.email}`}
+            class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-ink-950 transition-all hover:bg-brand-50"
+          >
+            {calculator.ctaLabel}
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16m0 0-6-6m6 6-6 6" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Range inputs need explicit styling in every browser or they inherit the
+     OS look, which would be the one un-designed element on the page. */
+  .calc-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 0.375rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .calc-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.375rem;
+    height: 1.375rem;
+    border-radius: 999px;
+    background: white;
+    border: 4px solid var(--color-brand-500);
+    cursor: grab;
+    transition: transform 0.15s ease;
+  }
+
+  .calc-range::-webkit-slider-thumb:active {
+    transform: scale(1.15);
+    cursor: grabbing;
+  }
+
+  .calc-range::-moz-range-thumb {
+    width: 1.375rem;
+    height: 1.375rem;
+    border-radius: 999px;
+    background: white;
+    border: 4px solid var(--color-brand-500);
+    cursor: grab;
+  }
+</style>
+
+<script>
+  const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T
+
+  const calls = el<HTMLInputElement>('calc-calls')
+  const rate = el<HTMLInputElement>('calc-rate')
+  const value = el<HTMLInputElement>('calc-value')
+
+  // Guard: this section can be removed from the page without breaking the build.
+  if (calls && rate && value) {
+    const outCalls = el<HTMLOutputElement>('out-calls')
+    const outRate = el<HTMLOutputElement>('out-rate')
+    const outValue = el<HTMLOutputElement>('out-value')
+    const result = el<HTMLElement>('calc-result')
+    const jobsOut = el<HTMLElement>('calc-jobs')
+    const ctaLink = el<HTMLAnchorElement>('calc-cta')
+
+    const email = ctaLink.getAttribute('href')!.replace('mailto:', '')
+
+    const money = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    })
+
+    const update = () => {
+      const missedPerWeek = Number(calls.value)
+      const closePct = Number(rate.value)
+      const perJob = Number(value.value)
+
+      const jobsPerYear = Math.round(missedPerWeek * 52 * (closePct / 100))
+      const annualLoss = jobsPerYear * perJob
+
+      outCalls.textContent = String(missedPerWeek)
+      outRate.textContent = `${closePct}%`
+      outValue.textContent = money.format(perJob)
+
+      result.textContent = money.format(annualLoss)
+      jobsOut.textContent = String(jobsPerYear)
+
+      // Carry the numbers into the email so the first message already
+      // contains the qualifying information you would otherwise have to ask for.
+      const body = [
+        'Hi,',
+        '',
+        'I used the calculator on your site:',
+        `- Missed calls per week: ${missedPerWeek}`,
+        `- Booking rate on answered calls: ${closePct}%`,
+        `- Average job value: ${money.format(perJob)}`,
+        `- Which came out at ${money.format(annualLoss)} a year`,
+        '',
+        'About my business:',
+        '- Company:',
+        '- What we do:',
+        '- Where we work:',
+        '',
+        'What happens now when we cannot answer the phone:',
+        '',
+      ].join('\n')
+
+      ctaLink.href = `mailto:${email}?subject=${encodeURIComponent('Calculator inquiry')}&body=${encodeURIComponent(body)}`
+    }
+
+    ;[calls, rate, value].forEach((input) => input.addEventListener('input', update))
+    update()
+  }
+</script>
