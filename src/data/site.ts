@@ -27,6 +27,13 @@ export interface Service {
 export interface ProcessStep { step: string; title: string; description: string; duration: string }
 export interface Faq { question: string; answer: string }
 export interface TranscriptLine { speaker: 'caller' | 'assistant'; text: string }
+export interface Currency {
+  code: string
+  label: string
+  locale: string
+  /** Slider bounds for "what a customer is worth", in this currency's own terms. */
+  jobValue: { min: number; max: number; step: number; default: number }
+}
 
 /* ---------------------------------------------------------------------------
  * 1. IDENTITY — TODO: all of this
@@ -108,8 +115,9 @@ export const calculator = {
   inputs: {
     missedCalls: { label: 'Calls you miss in a typical week', min: 0, max: 100, step: 1, default: 5 },
     closeRate: { label: 'Of the ones you do answer, how many book', min: 5, max: 100, step: 5, default: 30 },
-    jobValue: { label: 'What an average customer is worth to you', min: 100, max: 20000, step: 100, default: 1200 },
+    jobValue: { label: 'What an average customer is worth to you' },
   },
+  currencyLabel: 'Currency',
   resultLabel: 'Revenue walking out the door each year',
   footnote:
     'That is the size of the leak, not a guarantee of what we recover. Even catching half of it pays for this many times over — which is the entire argument.',
@@ -117,6 +125,34 @@ export const calculator = {
   disclaimer:
     'Rough arithmetic based on what you entered: missed calls per week, times 52, times your booking rate, times what a customer is worth.',
 }
+
+/* ---------------------------------------------------------------------------
+ * 4b. CURRENCIES
+ *
+ *    Each currency carries its own slider range rather than converting from
+ *    USD. That is deliberate: exchange rates go stale, and a converted range
+ *    produces absurd steps (a slider moving in 57-peso increments). These are
+ *    plausible customer values in each market, in that market's own terms.
+ *
+ *    TODO: sanity-check the ranges for the markets you actually sell into.
+ *    To add one, copy a row. `locale` controls digit grouping AND how the
+ *    symbol is drawn: CAD/AUD/SGD deliberately use en-US, because their own
+ *    locales render a bare "$" that reads as US dollars.
+ * ------------------------------------------------------------------------ */
+export const defaultCurrency = 'USD' // TODO: set to 'PHP' if most visitors are local
+
+export const currencies: Currency[] = [
+  { code: 'USD', label: 'USD — US Dollar',        locale: 'en-US', jobValue: { min: 100,  max: 20000,   step: 100,  default: 1200 } },
+  { code: 'PHP', label: 'PHP — Philippine Peso',  locale: 'en-PH', jobValue: { min: 500,  max: 500000,  step: 500,  default: 20000 } },
+  { code: 'EUR', label: 'EUR — Euro',             locale: 'de-DE', jobValue: { min: 100,  max: 20000,   step: 100,  default: 1000 } },
+  { code: 'GBP', label: 'GBP — British Pound',    locale: 'en-GB', jobValue: { min: 100,  max: 20000,   step: 100,  default: 1000 } },
+  { code: 'CAD', label: 'CAD — Canadian Dollar',  locale: 'en-US', jobValue: { min: 100,  max: 25000,   step: 100,  default: 1500 } },
+  { code: 'AUD', label: 'AUD — Australian Dollar',locale: 'en-US', jobValue: { min: 100,  max: 25000,   step: 100,  default: 1500 } },
+  { code: 'SGD', label: 'SGD — Singapore Dollar', locale: 'en-US', jobValue: { min: 100,  max: 25000,   step: 100,  default: 1500 } },
+  { code: 'AED', label: 'AED — UAE Dirham',       locale: 'en-AE', jobValue: { min: 500,  max: 75000,   step: 500,  default: 4500 } },
+  { code: 'INR', label: 'INR — Indian Rupee',     locale: 'en-IN', jobValue: { min: 1000, max: 1000000, step: 1000, default: 50000 } },
+  { code: 'MYR', label: 'MYR — Malaysian Ringgit',locale: 'en-MY', jobValue: { min: 100,  max: 100000,  step: 100,  default: 5000 } },
+]
 
 /* ---------------------------------------------------------------------------
  * 5. PROBLEM — where leads leak, described without naming an industry.
