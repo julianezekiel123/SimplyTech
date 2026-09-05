@@ -14,7 +14,7 @@ interface Props {
 }
 
 const { title = seo.title, description = seo.description, noindex = false } = Astro.props
-const fallbackOrigin = 'https://simplytech.me'
+const fallbackOrigin = 'https://www.simplytech.me'
 const canonical = new URL(Astro.url.pathname, Astro.site ?? fallbackOrigin).toString()
 const ogImage = new URL(seo.ogImage, Astro.site ?? fallbackOrigin).toString()
 ---

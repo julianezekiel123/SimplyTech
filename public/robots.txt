@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://simplytech.me/sitemap.xml
+Sitemap: https://www.simplytech.me/sitemap.xml

@@ -51,7 +51,7 @@ export const company = {
   name: 'SimplyTech',
   legalName: 'SimplyTech',
   tagline: 'Every call answered. Every lead followed up. Nothing left on voicemail.',
-  domain: 'https://simplytech.me',
+  domain: 'https://www.simplytech.me',
   // TODO: move to hello@simplytech.me before any cold outreach. A Gmail address
   // reads as "one guy with a laptop" to a stranger, and bulk sending from Gmail
   // gets the account suspended. Zoho Mail has a free tier.
