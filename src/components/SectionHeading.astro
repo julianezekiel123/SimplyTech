@@ -1,7 +1,10 @@
 ---
 /**
  * Shared section header so every section on the page shares one rhythm:
- * eyebrow, headline, optional intro paragraph.
+ * a small rule, an eyebrow, the headline, and an optional intro paragraph.
+ *
+ * Consistency here is what makes a page read as designed rather than
+ * assembled — the eye learns the pattern once and then stops working.
  */
 interface Props {
   eyebrow: string
@@ -9,20 +12,34 @@ interface Props {
   intro?: string
   align?: 'left' | 'center'
   tone?: 'light' | 'dark'
+  id?: string
 }
 
-const { eyebrow, headline, intro, align = 'center', tone = 'light' } = Astro.props
+const { eyebrow, headline, intro, align = 'center', tone = 'light', id } = Astro.props
 
 const wrap = align === 'center' ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'
-const eyebrowColor = tone === 'dark' ? 'text-brand-300' : 'text-brand-600'
+const eyebrowColor = tone === 'dark' ? 'text-brand-300' : 'text-brand-700'
+const markColor = tone === 'dark' ? 'bg-brand-400' : 'bg-brand-600'
 const headlineColor = tone === 'dark' ? 'text-white' : 'text-ink-950'
 const introColor = tone === 'dark' ? 'text-ink-300' : 'text-ink-600'
+const rowAlign = align === 'center' ? 'justify-center' : ''
 ---
 
 <div class={`reveal ${wrap}`}>
-  <p class={`text-xs font-semibold uppercase tracking-[0.16em] ${eyebrowColor}`}>{eyebrow}</p>
-  <h2 class={`mt-4 font-display text-3xl font-extrabold leading-tight sm:text-4xl md:text-[2.75rem] ${headlineColor}`}>
+  <div class={`flex items-center gap-2.5 ${rowAlign}`}>
+    <span class={`h-px w-6 ${markColor}`} aria-hidden="true"></span>
+    <p class={`eyebrow ${eyebrowColor}`}>{eyebrow}</p>
+  </div>
+
+  <h2 id={id} class={`display-2 mt-5 font-display font-bold ${headlineColor}`}>
     {headline}
   </h2>
-  {intro && <p class={`mt-5 text-lg leading-relaxed ${introColor}`}>{intro}</p>}
+
+  {
+    intro && (
+      <p class={`mt-5 text-lg leading-relaxed ${introColor} ${align === 'center' ? 'mx-auto' : ''}`}>
+        {intro}
+      </p>
+    )
+  }
 </div>

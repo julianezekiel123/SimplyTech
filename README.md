@@ -1,246 +1,226 @@
-# Website
+# SimplyTech website
 
-One-page site for done-for-you lead response and AI phone answering. Astro +
-Tailwind v4, static output, no frontend framework. Vertical-neutral by design.
+One-page site for done-for-you phone answering and lead follow-up, plus a
+privacy page and a terms page. Astro + Tailwind v4, static output, no frontend
+framework. Vertical-neutral by design.
+
+Live: <https://simplytech.me> · Repo:
+<https://github.com/julianezekiel123/SimplyTech> · Deploys from `main` on Vercel.
 
 ## Running it
 
 ```bash
-npm run dev     # http://localhost:4321
-npm run build   # outputs to dist/
-npm run preview # serve the built dist/ locally
+npm run dev      # http://localhost:4321
+npm run build    # outputs to dist/
+npm run preview  # serve the built dist/ locally
+npm run og       # regenerate public/og-image.png from the brand tokens
 ```
 
-## What this page is actually for
+## What this page is for
 
-Traffic arrives from cold email, not search. That means the page is **not** doing
-the persuading — the email already did. A visitor clicks to answer one question:
+Traffic arrives from cold email, not search. The email already made the
+argument, so the page is not doing the persuading. A visitor clicks to answer
+one question:
 
-> Is this a real company, or is someone phishing me?
+> Is this a real company, and is this worth twenty minutes of my time?
 
-Everything follows from that. The page is built to look legitimate, explain the
-thing plainly, and **match whatever the email promised**. A page that contradicts
-your email does more damage than no page at all, because it converts a warm reader
-into a suspicious one.
+Everything follows from that. The page is built to look established, explain
+the thing plainly, answer every hesitation before it is asked, and **match
+whatever the email promised**. A page that contradicts your email does more
+damage than no page at all, because it turns a warm reader into a suspicious
+one.
 
-Practical consequences:
+## The voice rule
 
-- **Keep the site and the email in sync.** If you change the offer in your Instantly
-  sequences, change `commercials` and `founding` in `site.ts` the same day.
-- **SEO barely matters here**, but the `seo` block still controls the link preview
-  card when someone pastes your URL into Slack or WhatsApp. A link with no preview
-  card looks more like spam, so fill it in.
-- **The first FAQ answers "you emailed me out of the blue, who are you?"** directly.
-  Do not delete it. It is the single most relevant question your actual traffic has.
+**Nothing on this site describes the business as new, early, unproven, or asks
+the reader to take a risk.** That was the old framing and it was costing you
+deals. Every true fact behind it is still on the page — small team, limited
+capacity, hands-on setup, low price, no contract — but stated as a deliberate
+way of operating rather than an apology.
+
+Being *selective* and being *inexperienced* are different claims. Only the
+first one is here. Keep it that way when you edit copy:
+
+| Do not write | Write instead |
+| --- | --- |
+| "We are early, so the price is low" | "Plans are sized to your call volume, and your rate is locked" |
+| "Why take the risk on us?" | "What if it does not work for my business?" |
+| "One person, who answers the phone" | "You deal with the person who builds it" |
+| "We have no clients yet" | "We onboard a few at a time so each setup gets proper attention" |
+
+## Selling without testimonials
+
+There are deliberately **no testimonials, no case studies and no client logos**
+in this codebase, because there are none to report yet. Do not add them until
+they are real — fabricated proof is illegal advertising in most markets and the
+fastest way to lose a deal in diligence.
+
+Four things stand in their place. Do not break these.
+
+**1. Cited third-party research** (`Evidence.astro`, `evidence` in `site.ts`) —
+published, dated, attributed studies about response time. It carries authority
+a young company's own claims cannot, and the reader can verify it. Two rules:
+never present these as SimplyTech's own results, and never add a statistic you
+cannot trace to a primary source. Several numbers that circulate in this
+industry are folklore with no study behind them — "78% of buyers purchase from
+the first responder" is the famous one. Citing folklore is worse than citing
+nothing, because the one buyer who checks will catch it.
+
+**2. The calculator** (`Calculator.astro`) — the visitor enters their own
+missed calls, close rate and customer value, and sees the annual leak. Nothing
+to defend, because it is their arithmetic about their business. The CTA carries
+their figures into the email, so your first reply already knows their volume
+and deal size. Defaults are conservative on purpose: 5 missed calls a week, 30%
+close, $1,200 a customer, about $93,600. Resist inflating them.
+
+**3. The transcript** (`SampleCall.astro`) — answers the objection that
+actually kills this sale: *does it sound like a robot?* Currently
+industry-neutral so it does not clash with whichever list you are emailing.
+**Replace it with a real test call.** A genuine transcript with its awkward
+moments left in beats a polished invented one; people can tell. If you run
+campaigns one industry at a time, swapping this to match is the highest-value
+edit available to you.
+
+**4. The comparison table** (`Comparison.astro`) — answers "why not just use
+voicemail / hire someone / use an answering service", which is the hesitation
+that kills deals silently because nobody emails to ask it. **Keep it fair.** A
+table that strawmans the alternatives is obvious to anyone who has used them
+and costs you the credibility the rest of the page is building.
 
 ## Where to edit things
 
-**All copy lives in one file: [`src/data/site.ts`](src/data/site.ts).** Search for
-`TODO` — that is your pre-launch checklist.
+**Almost all copy lives in one file: [`src/data/site.ts`](src/data/site.ts).**
+Search for `TODO` — that is your remaining checklist. See
+[TODO.md](TODO.md) for what actually blocks you, in order.
 
-| I want to change...       | Go to                                                  |
-| ------------------------- | ------------------------------------------------------ |
-| Any text, FAQ, transcript | `src/data/site.ts`                                     |
-| Brand colors and fonts    | `src/styles/global.css` (the `@theme` block at the top) |
-| Section order             | `src/pages/index.astro`                                |
-| A section's layout        | `src/components/<Name>.astro`                          |
+| I want to change... | Go to |
+| --- | --- |
+| Any text, FAQ, transcript, comparison | `src/data/site.ts` |
+| Privacy or terms wording | `src/pages/privacy.astro`, `src/pages/terms.astro` |
+| Brand colors, fonts, fluid type scale | `src/styles/global.css` (the `@theme` block) |
+| Section order | `src/pages/index.astro` |
+| A section's layout | `src/components/<Name>.astro` |
+| The logo mark | `src/components/Logo.astro` (and `public/favicon.svg` to match) |
+| The social share card | `scripts/make-og-image.mjs`, then `npm run og` |
 
-## Selling without proof
+## Section order, and why
 
-You have no clients and no public demo line, so the two normal ways to convince a
-stranger are unavailable. Three things stand in. Do not break these.
+Each section answers the question the previous one creates:
 
-**1. The calculator** (`Calculator.astro`) — the visitor enters their own missed
-calls, close rate, and customer value, and sees the annual leak. Nothing to defend,
-because it is their arithmetic about their business. The CTA carries their figures
-into the email, so your first reply already knows their volume and deal size.
+| Section | Question it answers |
+| --- | --- |
+| Hero | What is this, and what does it cost me in effort? |
+| Evidence | Says who? |
+| Calculator | Is it a problem for *me*? |
+| Problem | Where exactly does it leak? |
+| Services | So what do you actually do? |
+| Sample call | Does it sound like a robot? |
+| Comparison | Why not just do X instead? |
+| Process | How much of my time, and what breaks? |
+| Commercials | What am I agreeing to? |
+| About | Is there a real person behind this? |
+| FAQ | Everything left, including the awkward ones |
+| CTA | The one next step |
 
-Defaults (`calculator.inputs`) are conservative on purpose: 5 missed calls/week,
-30% close, $1,200/customer → about $93,600. Resist inflating them.
+Two rules if you reorder. The **calculator stays high**, because it makes the
+visitor prove the problem to themselves before we ask them to believe anything
+about us. **Commercial terms stay after the transcript**, because nobody cares
+what it costs until they believe it works.
 
-**2. The transcript** (`SampleCall.astro`) — answers the objection that actually
-kills this sale: *does it sound like a robot?* It is currently industry-neutral so
-it does not clash with whichever list you are emailing.
+## Design system
 
-**Replace it with a real test call.** A genuine transcript with its awkward moments
-left in beats a polished invented one; people can tell. And if you run campaigns
-one industry at a time, swapping this to match that industry is the highest-value
-edit available to you — see below.
+Deliberate choices, so you do not accidentally undo them:
 
-**3. The early-access offer** (`Commercials.astro`) — turns "I'm new" into a reason
-to move now. It only works if you honor it.
+- **Warm paper ground** (`--color-paper`, `#faf9f6`) rather than pure white,
+  and a **warm neutral ink ramp** rather than a cool grey one. Warm greys read
+  as designed; cool greys read as an untouched framework default.
+- **Deep emerald accent** rather than the indigo every AI product uses. One
+  warm signal colour (`--color-signal-*`) appears exactly once, on the
+  calculator's loss figure, so the eye reads it as the point of that section.
+- **Fluid type** (`display-1/2/3` in `global.css`) using `clamp()`, so
+  headlines scale continuously instead of stepping at breakpoints.
+- **Sections alternate paper / white / ink** to give the page a rhythm. If you
+  add a section, keep the alternation going.
+- **No dark mode.** Marketing sites are near-universally light, and it halves
+  the surface area for visual bugs.
 
-There are deliberately **no testimonials and no case studies** in this codebase. Do
-not add them until they are real. Fabricated proof is illegal advertising in most
-markets and the fastest way to lose a deal in diligence.
+## Accessibility and standards
+
+Already handled — do not regress them: skip link, visible focus rings, native
+`<details>` FAQ that works with no JavaScript, `prefers-reduced-motion` honored
+throughout, screen-reader text behind every icon in the comparison table, and
+scroll-reveal that degrades to plain visible content if JavaScript never runs.
+The comparison table scrolls inside its own container on narrow screens, so the
+page body never scrolls sideways.
 
 ## Before you promise "your price never goes up"
 
-The commercial terms currently say early-access pricing, locked permanently. That
-matches the offer you are pitching, but there is a trap in it worth understanding
-before your first client signs.
-
 **AI voice bills you per minute, every month, forever.** A permanent flat price
 against unlimited usage means a client whose call volume triples becomes a
-permanent loss you cannot exit. The same is true of a one-time "lifetime" payment:
-month 13 onward, you are paying to keep them.
+permanent loss you cannot exit.
 
-The fix costs you almost nothing in persuasiveness: **lock the rate, not unlimited
-usage.** "Your price is locked permanently, and includes up to N minutes a month"
-delivers the same emotional promise and caps the downside. There is a `TODO` at
-that line in `site.ts`. Work out your per-minute cost before you fill it in.
+The current wording already handles this: it locks the **rate**, and says plans
+are sized to call volume. That delivers the promise a buyer cares about without
+promising unlimited minutes. Do not weaken it to "unlimited" to close a deal.
+`src/pages/terms.astro` says the same thing, so change both together.
 
 ## Pricing display
 
 `showStartingPrice` is `false`, so the site explains the *shape* of the deal
-without naming a number — correct while you do not know your costs, and it still
-answers the buyer's real anxiety ("am I about to be quoted five thousand dollars?").
-
-When you know your numbers: set `showStartingPrice = true` and fill in
-`startingPrice`. That is the only change needed.
-
-## Before you launch
-
-- [ ] Replace every `TODO` in `src/data/site.ts` — start with the business name
-- [ ] Real email, phone, and `phoneRaw` (digits only, powers tap-to-call)
-- [ ] Real domain in `astro.config.mjs`, `company.domain`, and `public/robots.txt`
-- [ ] **Replace the sample transcript with a real test call**
-- [ ] Rewrite `about.body` in your own voice — it is a `TODO` placeholder right now,
-      and it is where a cold-email reader decides you are a real person
-- [ ] Decide the usage band behind the price-lock promise (see above)
-- [ ] Check the services list matches what you can actually deliver this month
-- [ ] Logo: replace the letter tile in `Header.astro` and `Footer.astro`
-- [ ] Favicon at `public/favicon.svg`, share image at `public/og-image.png` (1200×630)
-- [ ] Privacy and terms pages — the footer links to `/privacy` and `/terms` and both
-      are currently 404s. A privacy policy is close to mandatory for a business
-      sending cold email, and it is a trust signal for exactly this traffic
+without naming a number — correct while you do not know your costs, and the FAQ
+still answers the buyer's real anxiety ("am I about to be quoted five thousand
+dollars?"). When you know your numbers: set `showStartingPrice = true` and fill
+in `startingPrice`. That is the only change needed.
 
 ## Cold email specifics
 
-**Do not send from your main domain.** Buy a few lookalike domains for Instantly to
-send from and point them at this site. If a sending domain gets burned — and at
-volume, some will — your real domain's reputation survives. This is standard
+**Do not send from your main domain.** Buy a few lookalike domains for Instantly
+to send from and point them at this site. If a sending domain gets burned — and
+at volume, some will — `simplytech.me`'s reputation survives. This is standard
 practice and the single most expensive mistake to make late.
 
-**Match the landing page to the campaign.** Astro makes per-industry variants cheap:
-copy `src/pages/index.astro` to `src/pages/dental.astro`, override the transcript
-and hero, and link that URL from that campaign. Same site, same components, one
-extra file each. Say the word and I will wire it up so the vertical is a single
-config value rather than a duplicated page.
+**Keep the site and the email in sync.** If the offer changes in your sequences,
+change `commercials` and `founding` the same day.
 
-**Call recording consent.** The site promises clients transcripts and recordings.
-About a dozen US states require *all* parties to consent, not just one. The standard
-fix is a spoken notice at the start of the call. Sort this before your first client.
+**Match the landing page to the campaign.** Astro makes per-industry variants
+cheap: copy `src/pages/index.astro` to `src/pages/dental.astro`, override the
+transcript and hero, and link that URL from that campaign. Say the word and I
+will wire the vertical up as a single config value rather than a duplicated
+page.
+
+**Call recording consent.** The site promises clients transcripts and
+recordings. About a dozen US states require *all* parties to consent, not just
+one. The standard fix is a spoken notice at the start of the call, which the
+privacy page already commits you to configuring. Sort it before your first
+client.
 
 **Medical callers.** The FAQ deliberately flags that clinics and med spas need
 handling separately — patient information puts you in HIPAA scope and you would
-need a BAA from whichever voice platform you resell. Most budget providers will not
-sign one. Not a reason to avoid the market forever, but a reason not to stumble
-into it because a med spa happened to reply.
+need a BAA from whichever voice platform you resell. Most budget providers will
+not sign one. Not a reason to avoid the market forever, but a reason not to
+stumble into it because a med spa happened to reply.
 
-## Getting a domain and deploying to Vercel
+## Deploying
 
-Do these in order. Total time is about 30 minutes, most of it waiting.
+The repo is connected to Vercel. **`git push` to `main` redeploys the site in
+about a minute.** There is nothing else to run.
 
-### 1. Pick a domain name
+If the domain ever needs re-pointing: Vercel project → Settings → Domains. SSL
+is automatic and you should never pay anyone for a certificate.
 
-`simpletech.com` is almost certainly taken — SimpleTech was a real US storage
-company in the 2000s, so the name has history. That is not a problem for you (you
-are in a completely different business), but it does mean the obvious `.com` is
-gone. Good alternatives, in rough order of preference:
-
-- `trysimpletech.com` / `getsimpletech.com` / `usesimpletech.com` — the standard
-  workaround, reads fine in an email signature
-- `simpletech.io` or `simpletech.co` — short, and nobody thinks twice about them
-- `simpletech.ai` — apt for what you sell, but expect roughly $70–100/year versus
-  $10–20 for the others
-
-Nobody is typing your name into a browser — your traffic is a link. So optimise for
-"looks legitimate in an email", not for memorability.
-
-### 2. Buy it
-
-**Simplest: buy it inside Vercel.** Dashboard → **Domains** → search → buy. Vercel
-configures DNS and SSL automatically, so there is nothing to wire up afterwards.
-Costs a few dollars more per year than buying elsewhere.
-
-**Cheapest: Cloudflare Registrar** (sells at cost, ~$10/year for a `.com`, no
-upsells or renewal price hikes). You then point it at Vercel manually in step 5.
-Worth it if you plan to own several sending domains later, which you will.
-
-Either is fine. If you want to be done fastest, buy in Vercel.
-
-### 3. Put the code on GitHub
-
-```bash
-git init
-git add -A
-git commit -m "Initial site"
-```
-
-Create an empty repo at <https://github.com/new> (private is fine), then:
-
-```bash
-git remote add origin https://github.com/<you>/<repo>.git
-git branch -M main
-git push -u origin main
-```
-
-You can skip GitHub and run `npx vercel` from this folder instead — but then every
-future update is a manual command. With GitHub connected, `git push` redeploys the
-site by itself.
-
-### 4. Deploy
-
-<https://vercel.com/new> → **Import** your repo → **Deploy**.
-
-Vercel detects Astro on its own. You should not need to change the build command
-(`npm run build`) or output directory (`dist`) — if the form is pre-filled with
-those, it is correct. First deploy takes about a minute and gives you a live URL
-like `simpletech.vercel.app`.
-
-That URL already works. You can send it to people today, before any domain exists.
-
-### 5. Attach the domain
-
-Project → **Settings** → **Domains** → add your domain.
-
-- Bought through Vercel: it connects itself, nothing to do.
-- Bought elsewhere: Vercel shows the exact DNS records to add. Copy them into your
-  registrar. Propagation is usually minutes, occasionally a few hours.
-
-Add both `simpletech.com` and `www.simpletech.com`; Vercel will redirect one to the
-other. SSL is automatic — never pay anyone for a certificate.
-
-### 6. Update three files with the real domain
-
-Easy to forget, and all three affect how the site behaves in the wild:
-
-| File | What to change |
-| --- | --- |
-| `astro.config.mjs` | `site: 'https://yourdomain.com'` |
-| `src/data/site.ts` | `company.domain` |
-| `public/robots.txt` | the `Sitemap:` line |
-
-These control the canonical URL and the link preview card that shows when someone
-pastes your URL into Slack, WhatsApp, or LinkedIn. Wrong values mean the preview
-points at `example.com`.
-
-Then `git push`, and Vercel redeploys on its own.
-
-### After the domain exists
-
-Set up `hello@simpletech.com` (Google Workspace ~$7/user/month, or Zoho Mail has a
-free tier) and swap it into `company.email`. The Gmail is fine while leads come
-from people who already know you. It stops being fine the moment a stranger is
-deciding whether you are a real company.
+Three files carry the domain and must agree: `astro.config.mjs` (`site`),
+`src/data/site.ts` (`company.domain`), and `public/robots.txt` (the `Sitemap:`
+line). They control the canonical URL and the link preview card.
 
 ## What is deliberately not here
 
 - **No contact form.** The calculator CTA does the qualifying a form would have
-  done. If you want a real form later, Netlify Forms needs no backend.
+  done, and a form needs a backend or a third-party endpoint that can break
+  silently. If you want one later, Web3Forms or Formspree need no backend.
 - **No analytics.** Add Plausible or Fathom with one script tag in
-  `src/layouts/Base.astro`. Worth doing once campaigns are running — you will want
-  to know whether clickers read or bounce.
-- **No dark mode.** Marketing sites are near-universally light, and it halves the
-  surface area for visual bugs.
+  `src/layouts/Base.astro`. Worth doing once campaigns are running — you will
+  want to know whether clickers read or bounce. **If you add one, update the
+  privacy page the same day**, because it currently states truthfully that the
+  site runs no analytics and sets no cookies.
+- **No cookie banner**, because there are no cookies to consent to. Keep it
+  that way if you can; it is a small trust advantage.

@@ -2,10 +2,18 @@
 import SectionHeading from './SectionHeading.astro'
 import { commercials, founding, showStartingPrice, startingPrice, company, cta } from '../data/site'
 
-const mailto = `mailto:${company.email}?subject=${encodeURIComponent('Founding client inquiry')}&body=${encodeURIComponent(cta.emailBody)}`
+const mailto = `mailto:${company.email}?subject=${encodeURIComponent('Enquiry about working together')}&body=${encodeURIComponent(cta.emailBody)}`
 ---
 
-<section id="pricing" class="bg-white py-24 md:py-32">
+{/*
+  Terms come after the transcript, never before. Nobody cares what something
+  costs until they believe it works.
+
+  The dark panel at the bottom used to be an apology for being new. It now
+  states the same facts — limited capacity, hands-on setup, we turn work down
+  — as a deliberate way of operating, which is what they always were.
+*/}
+<section id="pricing" class="border-y border-ink-200/70 bg-white py-24 md:py-32">
   <div class="container-page">
     <SectionHeading
       eyebrow={commercials.eyebrow}
@@ -14,9 +22,9 @@ const mailto = `mailto:${company.email}?subject=${encodeURIComponent('Founding c
     />
 
     {
-      showStartingPrice && (
+      showStartingPrice && startingPrice && (
         <p class="reveal mt-10 text-center">
-          <span class="font-display text-5xl font-extrabold tracking-tight text-ink-950">
+          <span class="font-display text-5xl font-bold tracking-tight text-ink-950">
             {startingPrice}
           </span>
           <span class="ml-2 text-ink-500">per month, all in</span>
@@ -24,11 +32,10 @@ const mailto = `mailto:${company.email}?subject=${encodeURIComponent('Founding c
       )
     }
 
-    {/* The four terms that answer "what am I actually agreeing to" */}
-    <div class="mt-14 grid gap-px overflow-hidden rounded-3xl border border-ink-200 bg-ink-200 sm:grid-cols-2">
+    <div class="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ink-200 bg-ink-200 sm:grid-cols-2">
       {
         commercials.terms.map((term, i) => (
-          <div class="reveal bg-white p-8" data-reveal-delay={i * 70}>
+          <div class="reveal bg-paper p-8" data-reveal-delay={i * 70}>
             <h3 class="flex items-center gap-2.5 font-display text-base font-bold text-ink-950">
               <svg
                 class="h-5 w-5 shrink-0 text-brand-600"
@@ -48,14 +55,15 @@ const mailto = `mailto:${company.email}?subject=${encodeURIComponent('Founding c
       }
     </div>
 
-    {/* Founding client offer — the honest replacement for case studies */}
-    <div class="reveal mt-8 overflow-hidden rounded-3xl bg-ink-950 p-8 text-white md:p-12">
+    {/* How we work */}
+    <div class="reveal mt-8 overflow-hidden rounded-2xl bg-ink-950 p-8 text-white md:p-12">
       <div class="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">
-            {founding.eyebrow}
-          </p>
-          <h3 class="mt-4 font-display text-2xl font-extrabold leading-tight text-white md:text-3xl">
+          <div class="flex items-center gap-2.5">
+            <span class="h-px w-6 bg-brand-400" aria-hidden="true"></span>
+            <p class="eyebrow text-brand-300">{founding.eyebrow}</p>
+          </div>
+          <h3 class="display-3 mt-5 font-display font-bold text-white">
             {founding.headline}
           </h3>
           <div class="mt-6 space-y-4">
@@ -63,7 +71,7 @@ const mailto = `mailto:${company.email}?subject=${encodeURIComponent('Founding c
           </div>
         </div>
 
-        <div class="lg:pt-14">
+        <div class="lg:pt-16">
           <ul class="space-y-3.5">
             {
               founding.terms.map((term) => (
@@ -86,9 +94,9 @@ const mailto = `mailto:${company.email}?subject=${encodeURIComponent('Founding c
 
           <a
             href={mailto}
-            class="mt-8 flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink-950 transition-all hover:bg-brand-50"
+            class="mt-8 flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-brand-100"
           >
-            Ask about founding rates
+            Ask about availability
           </a>
           <p class="mt-3 text-center text-xs text-ink-400">{founding.spotsNote}</p>
         </div>

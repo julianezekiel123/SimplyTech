@@ -8,6 +8,14 @@ const { missedCalls, closeRate, jobValue } = calculator.inputs
 const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies[0]
 ---
 
+{/*
+  The strongest section on the page, and it sits high for that reason: the
+  visitor proves the problem to themselves with their own numbers, before
+  anybody has asked them to believe anything about us.
+
+  The result carries the one warm colour on the site. It is used nowhere else,
+  so the eye reads it as "this figure is the point of the section".
+*/}
 <section id="leak" class="bg-ink-950 py-24 text-white md:py-32">
   <div class="container-page">
     <SectionHeading
@@ -17,7 +25,7 @@ const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies
       tone="dark"
     />
 
-    <div class="reveal mx-auto mt-14 max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]">
+    <div class="reveal mx-auto mt-14 max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
       <div class="grid lg:grid-cols-[1.1fr_1fr]">
         {/* Inputs */}
         <div class="space-y-8 border-b border-white/10 p-8 md:p-10 lg:border-b-0 lg:border-r">
@@ -44,7 +52,7 @@ const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies
               <output
                 id="out-calls"
                 for="calc-calls"
-                class="font-display text-xl font-extrabold tabular-nums text-brand-300"
+                class="font-display text-xl font-bold tabular-nums text-brand-300"
               >
                 {missedCalls.default}
               </output>
@@ -68,7 +76,7 @@ const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies
               <output
                 id="out-rate"
                 for="calc-rate"
-                class="font-display text-xl font-extrabold tabular-nums text-brand-300"
+                class="font-display text-xl font-bold tabular-nums text-brand-300"
               >
                 {closeRate.default}%
               </output>
@@ -92,7 +100,7 @@ const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies
               <output
                 id="out-value"
                 for="calc-value"
-                class="font-display text-xl font-extrabold tabular-nums text-brand-300"
+                class="font-display text-xl font-bold tabular-nums text-brand-300"
               >
                 {initial.jobValue.default}
               </output>
@@ -115,17 +123,15 @@ const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies
 
         {/* Result */}
         <div class="flex flex-col justify-center bg-white/[0.03] p-8 text-center md:p-10">
-          <p class="text-xs font-semibold uppercase tracking-[0.14em] text-ink-400">
-            {calculator.resultLabel}
-          </p>
+          <p class="eyebrow text-ink-400">{calculator.resultLabel}</p>
           <p
             id="calc-result"
-            class="mt-4 font-display text-4xl font-extrabold tracking-tight text-white tabular-nums sm:text-5xl md:text-6xl"
+            class="mt-4 font-display text-4xl font-bold tracking-tight text-signal-300 tabular-nums sm:text-5xl md:text-6xl"
             aria-live="polite"
           >
             &nbsp;
           </p>
-          <p class="mt-1.5 text-sm text-ink-400">
+          <p class="mt-2 text-sm text-ink-400">
             about <span id="calc-jobs" class="font-semibold text-ink-200">0</span> customers a year
           </p>
 
@@ -135,7 +141,7 @@ const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies
             id="calc-cta"
             href={`mailto:${company.email}`}
             data-email={company.email}
-            class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-ink-950 transition-all hover:bg-brand-50"
+            class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-brand-100"
           >
             {calculator.ctaLabel}
             <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
@@ -217,7 +223,7 @@ const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies
   /* The dropdown list itself renders in the OS theme, so force readable
      colors — otherwise white-on-white in some browsers. */
   .calc-select option {
-    background-color: #0f1524;
+    background-color: #100f0d;
     color: white;
   }
 </style>
@@ -304,7 +310,7 @@ const initial = currencies.find((c) => c.code === defaultCurrency) ?? currencies
         '',
       ].join('\n')
 
-      ctaLink.href = `mailto:${email}?subject=${encodeURIComponent('Calculator inquiry')}&body=${encodeURIComponent(body)}`
+      ctaLink.href = `mailto:${email}?subject=${encodeURIComponent('Calculator enquiry')}&body=${encodeURIComponent(body)}`
     }
 
     const switchCurrency = () => {

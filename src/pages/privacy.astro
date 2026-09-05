@@ -1,0 +1,106 @@
+---
+import Legal from '../layouts/Legal.astro'
+import { company } from '../data/site'
+
+/**
+ * Written to describe what this business and this website actually do, rather
+ * than pasted from a generator. That matters: a policy describing cookies you
+ * do not set and analytics you do not run is worse than none, because it is
+ * demonstrably untrue of the site it sits on.
+ *
+ * TODO before you run paid ads or sell into the EU or UK: have somebody
+ * qualified read this. If you add analytics, a chat widget, or a form, this
+ * page has to change the same day.
+ */
+---
+
+<Legal
+  title="Privacy"
+  heading="Privacy"
+  intro="What we collect, why, and what we will never do with it. Written in plain English, because a policy nobody can read is not a policy."
+>
+  <h2>The short version</h2>
+  <p>
+    This website sets no cookies, runs no analytics, and has no tracking pixels
+    or advertising tags on it. There is no form to fill in. If you want to reach
+    us you use an email link or a phone number, and nothing about your visit is
+    recorded on our side until you do.
+  </p>
+
+  <h2>What we collect when you contact us</h2>
+  <p>
+    If you email or call, we hold what you send us: your name, your email
+    address or phone number, your company, and whatever you tell us about your
+    business. We use it to answer you and, if you become a customer, to run
+    your service. That is the whole purpose.
+  </p>
+
+  <h2>What we collect if you become a customer</h2>
+  <p>
+    Running phone answering for you means handling records of the calls that
+    come into your business. That includes:
+  </p>
+  <ul>
+    <li>Call recordings and written transcripts</li>
+    <li>Caller phone numbers, names and any details a caller gives</li>
+    <li>Appointments booked, and the calendar entries created for them</li>
+    <li>Text messages sent and received on your behalf</li>
+  </ul>
+  <p>
+    This information belongs to you, not to us. We access it to set your
+    assistant up, to correct it during the tuning period, and to fix faults you
+    report. We do not sell it, rent it, share it with advertisers, or use one
+    customer's records to do anything for another customer.
+  </p>
+
+  <h2>Call recording and consent</h2>
+  <p>
+    Some jurisdictions, including around a dozen US states, require every party
+    on a call to consent to it being recorded rather than just one. Where that
+    applies, we configure a spoken notice at the start of the call as part of
+    your setup. If your situation is unusual, tell us before you go live and we
+    will work out the right arrangement.
+  </p>
+
+  <h2>Who else touches your data</h2>
+  <p>
+    We build on third-party infrastructure rather than running our own
+    telephony and speech systems, so your calls pass through the providers we
+    use for phone numbers, voice processing, and calendar connections. They act
+    on our instructions and are bound by their own agreements. We will tell you
+    which providers are involved in your setup if you ask, and you are entitled
+    to ask.
+  </p>
+
+  <h2>How long we keep it</h2>
+  <p>
+    Recordings and transcripts are kept for as long as your service is running,
+    or for a shorter period if you ask us to set one. Enquiries that do not
+    become customers are deleted once the conversation has clearly ended. When
+    you leave, you can export everything, and we will delete our copies on
+    request.
+  </p>
+
+  <h2>Your rights</h2>
+  <p>
+    You can ask us what we hold about you, ask for a copy of it, ask us to
+    correct it, or ask us to delete it. Email{' '}
+    <a href={`mailto:${company.email}`}>{company.email}</a> and you will get an
+    answer inside one business day. There is no fee and no form.
+  </p>
+
+  <h2>Cold outreach</h2>
+  <p>
+    We contact businesses directly, using business contact details, to introduce
+    what we do. If you would rather not hear from us, reply and say so, or email
+    the address above. You will be removed and not contacted again, and you do
+    not have to explain why.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    If this policy changes in a way that affects existing customers, we will
+    email them about it rather than quietly editing the page and hoping nobody
+    notices.
+  </p>
+</Legal>

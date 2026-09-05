@@ -1,0 +1,101 @@
+---
+import Base from './Base.astro'
+import { company, legal } from '../data/site'
+
+interface Props {
+  title: string
+  heading: string
+  intro: string
+}
+
+const { title, heading, intro } = Astro.props
+---
+
+{/*
+  Shared shell for /privacy and /terms. Both are noindex: they exist to be
+  reachable and to be read by anyone checking the business is real, not to
+  compete with the page that actually sells.
+*/}
+<Base title={`${heading} — ${company.name}`} description={intro} noindex>
+  <article class="bg-paper pt-32 pb-24 md:pt-40 md:pb-32">
+    <div class="container-page">
+      <div class="mx-auto max-w-2xl">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-sm font-medium text-ink-600 transition-colors hover:text-ink-950"
+        >
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4m0 0 6-6m-6 6 6 6" />
+          </svg>
+          Back to {company.name}
+        </a>
+
+        <h1 class="display-2 mt-8 font-display font-bold text-ink-950">{heading}</h1>
+        <p class="mt-5 text-lg leading-relaxed text-ink-600">{intro}</p>
+        <p class="mt-6 border-t border-ink-200 pt-6 text-sm text-ink-500">
+          Last updated {legal.lastUpdated}. Questions about any of this go to{' '}
+          <a
+            href={`mailto:${company.email}`}
+            class="font-medium text-brand-700 underline underline-offset-4 hover:text-brand-800"
+          >
+            {company.email}</a
+          >, and they get a real answer.
+        </p>
+
+        <div class="legal-prose mt-12">
+          <slot />
+        </div>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style is:global>
+  /* Scoped to the legal pages so the marketing page's spacing is untouched. */
+  .legal-prose h2 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ink-950);
+    margin-top: 2.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-prose p,
+  .legal-prose li {
+    color: var(--color-ink-700);
+    line-height: 1.75;
+  }
+
+  .legal-prose p + p {
+    margin-top: 1rem;
+  }
+
+  .legal-prose ul {
+    margin-top: 1rem;
+    padding-left: 1.125rem;
+    list-style: disc;
+  }
+
+  .legal-prose li + li {
+    margin-top: 0.5rem;
+  }
+
+  /* A paragraph following a list needs its own breathing room, or the two
+     read as one run-on block. */
+  .legal-prose ul + p {
+    margin-top: 1rem;
+  }
+
+  .legal-prose a {
+    color: var(--color-brand-700);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 500;
+  }
+</style>

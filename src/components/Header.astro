@@ -1,29 +1,41 @@
 ---
-import { company, nav } from '../data/site'
+import Logo from './Logo.astro'
+import { company, nav, primaryPhone } from '../data/site'
+
+// The nav points at sections of the home page. From /privacy or /terms those
+// bare hashes go nowhere, so anywhere but home they are rewritten to absolute
+// links that navigate home first.
+const onHome = Astro.url.pathname === '/'
+const to = (hash: string) => (onHome ? hash : `/${hash}`)
 ---
 
+{/*
+  Fixed header. Transparent over the hero, then it picks up a solid warm
+  background and a hairline once the page scrolls, so the wordmark stays
+  legible over whatever section is underneath.
+
+  The phone number lives in the header on purpose: a company selling call
+  answering that hides its own number is answering the wrong question.
+*/}
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-all duration-300"
+  class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color,box-shadow] duration-300"
 >
   <div class="container-page">
-    <div class="flex h-16 items-center justify-between gap-6 md:h-20">
-      {/* Wordmark. Swap the span for an <img src="/logo.svg" /> when you have one. */}
-      <a href="#top" class="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-ink-950">
-        <span
-          class="grid h-8 w-8 place-items-center rounded-lg bg-ink-950 font-display text-sm font-extrabold text-white"
-          aria-hidden="true"
-        >
-          {company.name.charAt(0)}
-        </span>
+    <div class="flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
+      <a
+        href={to('#top')}
+        class="flex items-center gap-2.5 font-display text-[1.0625rem] font-bold tracking-tight text-ink-950"
+      >
+        <Logo class="h-8 w-8" />
         {company.name}
       </a>
 
-      <nav aria-label="Primary" class="hidden items-center gap-8 lg:flex">
+      <nav aria-label="Primary" class="hidden items-center gap-7 lg:flex">
         {
           nav.map((link) => (
             <a
-              href={link.href}
+              href={to(link.href)}
               class="text-sm font-medium text-ink-600 transition-colors hover:text-ink-950"
             >
               {link.label}
@@ -32,25 +44,32 @@ import { company, nav } from '../data/site'
         }
       </nav>
 
-      <div class="hidden items-center gap-3 lg:flex">
-        <div class="flex flex-col items-end leading-tight">
-          {
-            company.phones.map((p) => (
-              <a
-                href={`tel:${p.raw}`}
-                class="text-xs font-medium text-ink-600 transition-colors hover:text-ink-950"
-              >
-                <span class="mr-1 font-bold text-ink-400">{p.region}</span>
-                {p.display}
-              </a>
-            ))
-          }
-        </div>
+      <div class="hidden items-center gap-4 lg:flex">
         <a
-          href={`mailto:${company.email}`}
-          class="rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-brand-600"
+          href={`tel:${primaryPhone.raw}`}
+          class="group flex items-center gap-2 text-sm font-semibold text-ink-800 transition-colors hover:text-brand-700"
         >
-          Email us
+          <svg
+            class="h-4 w-4 text-brand-600"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
+            />
+          </svg>
+          {primaryPhone.display}
+        </a>
+        <a
+          href={to('#contact')}
+          class="rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-700"
+        >
+          Book a call
         </a>
       </div>
 
@@ -71,25 +90,26 @@ import { company, nav } from '../data/site'
   </div>
 
   {/* Mobile panel */}
-  <div id="mobile-menu" class="hidden border-t border-ink-100 bg-white lg:hidden">
+  <div id="mobile-menu" class="hidden border-t border-ink-200/70 bg-paper lg:hidden">
     <nav aria-label="Mobile" class="container-page flex flex-col gap-1 py-4">
       {
         nav.map((link) => (
           <a
-            href={link.href}
+            href={to(link.href)}
             data-mobile-link
-            class="rounded-lg px-3 py-3 text-base font-medium text-ink-800 hover:bg-ink-50"
+            class="rounded-lg px-3 py-3 text-base font-medium text-ink-800 hover:bg-ink-100"
           >
             {link.label}
           </a>
         ))
       }
-      <div class="mt-3 flex flex-col gap-2 border-t border-ink-100 pt-4">
+      <div class="mt-3 flex flex-col gap-2 border-t border-ink-200/70 pt-4">
         <a
-          href={`mailto:${company.email}`}
+          href={to('#contact')}
+          data-mobile-link
           class="rounded-full bg-ink-950 px-5 py-3 text-center text-sm font-semibold text-white"
         >
-          Email us
+          Book a call
         </a>
         {
           company.phones.map((p) => (
@@ -113,13 +133,11 @@ import { company, nav } from '../data/site'
   const iconOpen = document.getElementById('icon-open')!
   const iconClose = document.getElementById('icon-close')!
 
-  // The header is transparent over the hero and gains a solid background
-  // once the page scrolls, so the wordmark stays legible over content.
   const setHeaderStyle = () => {
     const scrolled = window.scrollY > 8
-    header.classList.toggle('bg-white/85', scrolled)
+    header.classList.toggle('bg-paper/85', scrolled)
     header.classList.toggle('backdrop-blur-md', scrolled)
-    header.classList.toggle('border-ink-100', scrolled)
+    header.classList.toggle('border-ink-200/70', scrolled)
     header.classList.toggle('border-transparent', !scrolled)
   }
 

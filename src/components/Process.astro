@@ -3,7 +3,7 @@ import SectionHeading from './SectionHeading.astro'
 import { process } from '../data/site'
 ---
 
-<section id="process" class="bg-ink-50/60 py-24 md:py-32">
+<section id="process" class="bg-paper py-24 md:py-32">
   <div class="container-page">
     <SectionHeading
       eyebrow={process.eyebrow}
@@ -12,9 +12,9 @@ import { process } from '../data/site'
     />
 
     <ol class="relative mx-auto mt-16 max-w-3xl">
-      {/* Vertical spine connecting the steps. Hidden from screen readers. */}
+      {/* Vertical spine connecting the steps. Decorative only. */}
       <div
-        class="absolute left-[1.4375rem] top-3 bottom-3 hidden w-px bg-gradient-to-b from-ink-200 via-ink-200 to-transparent sm:block"
+        class="absolute left-[1.4375rem] top-3 bottom-3 hidden w-px bg-gradient-to-b from-ink-300 via-ink-300 to-transparent sm:block"
         aria-hidden="true"
       >
       </div>
@@ -23,16 +23,16 @@ import { process } from '../data/site'
         process.steps.map((step, i) => (
           <li class="reveal relative flex gap-6 pb-12 last:pb-0" data-reveal-delay={i * 80}>
             <span
-              class="z-10 grid h-12 w-12 shrink-0 place-items-center rounded-full border border-ink-200 bg-white font-display text-sm font-extrabold text-ink-900"
+              class="z-10 grid h-12 w-12 shrink-0 place-items-center rounded-full border border-ink-300 bg-white font-display text-sm font-bold text-ink-900"
               aria-hidden="true"
             >
               {step.step}
             </span>
 
             <div class="pt-1.5">
-              <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                 <h3 class="font-display text-lg font-bold text-ink-950">{step.title}</h3>
-                <span class="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-700">
+                <span class="rounded-full bg-brand-100 px-2.5 py-1 text-xs font-semibold text-brand-800">
                   {step.duration}
                 </span>
               </div>

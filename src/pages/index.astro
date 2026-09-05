@@ -1,10 +1,12 @@
 ---
 import Base from '../layouts/Base.astro'
 import Hero from '../components/Hero.astro'
+import Evidence from '../components/Evidence.astro'
 import Calculator from '../components/Calculator.astro'
 import Problem from '../components/Problem.astro'
 import Services from '../components/Services.astro'
 import SampleCall from '../components/SampleCall.astro'
+import Comparison from '../components/Comparison.astro'
 import Process from '../components/Process.astro'
 import Commercials from '../components/Commercials.astro'
 import About from '../components/About.astro'
@@ -14,24 +16,35 @@ import Cta from '../components/Cta.astro'
 
 <Base>
   {/*
-    Order is deliberate, and built around having no clients yet.
+    Order is deliberate, and it is built around a reader who arrives from a
+    cold email already half-suspicious. Each section answers the question the
+    previous one creates.
 
-    The calculator sits second, immediately after the hero, because it is the
-    strongest thing on the page: it makes the visitor prove the problem to
-    themselves using their own numbers, before we have asked them to believe
-    anything about us.
+      Hero        What is this, and what does it cost me in effort?
+      Evidence    Says who? — cited third-party research, not our claims
+      Calculator  Fine, but is it a problem for ME? — their own arithmetic
+      Problem     Where exactly does it leak?
+      Services    So what do you actually do about it?
+      SampleCall  Does it sound like a robot? — the objection that kills this
+      Comparison  Why not just do X instead?
+      Process     How much of my time and what breaks?
+      Commercials What am I agreeing to? — terms only once they believe it works
+      About       Is there a real person behind this?
+      FAQ         Everything left, including the awkward ones
+      CTA         The one next step
 
-    The transcript sits mid-page as the proof substitute — it answers "does it
-    sound like a robot", which is the objection that kills this sale.
-
-    Commercial terms come after the transcript, never before. Nobody cares what
-    it costs until they believe it works.
+    Two rules if you reorder. The calculator stays high, because it makes the
+    visitor prove the problem to themselves before we ask them to believe
+    anything about us. Commercial terms stay after the transcript, because
+    nobody cares what it costs until they believe it works.
   */}
   <Hero />
+  <Evidence />
   <Calculator />
   <Problem />
   <Services />
   <SampleCall />
+  <Comparison />
   <Process />
   <Commercials />
   <About />

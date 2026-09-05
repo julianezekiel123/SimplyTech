@@ -1,27 +1,37 @@
 ---
 import SectionHeading from './SectionHeading.astro'
-import { faqs } from '../data/site'
+import { faqs, company, primaryPhone } from '../data/site'
 ---
 
-<section id="faq" class="bg-white py-24 md:py-32">
+{/*
+  On this site the FAQ does more work than any other section, because cold
+  traffic arrives suspicious and will not email to ask. Two deliberate
+  choices:
+
+  1. Native <details>, so it is keyboard-operable, findable with ctrl-F when
+     open, and works with no JavaScript at all.
+  2. No `name` attribute, so several can be open at once. The exclusive
+     accordion looks tidier and is worse here — somebody working through
+     their hesitations wants to compare two answers, not lose the first.
+*/}
+<section id="faq" class="border-y border-ink-200/70 bg-white py-24 md:py-32">
   <div class="container-page">
     <SectionHeading
-      eyebrow="Questions"
-      headline="The things people ask before they sign."
-      intro="Including the awkward ones. If yours is not here, ask it directly."
+      eyebrow="Straight answers"
+      headline="The things people ask before they say yes."
+      intro="Including the awkward ones. If yours is not here, call and ask it."
     />
 
-    {/* Native <details> — accessible, keyboard-operable, and works with no JS. */}
-    <div class="mx-auto mt-14 max-w-3xl divide-y divide-ink-100 border-y border-ink-100">
+    <div class="mx-auto mt-14 max-w-3xl divide-y divide-ink-200 border-y border-ink-200">
       {
         faqs.map((faq, i) => (
-          <details class="reveal group" name="faq" data-reveal-delay={i * 50}>
+          <details class="reveal group" data-reveal-delay={Math.min(i, 6) * 40}>
             <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left [&::-webkit-details-marker]:hidden">
               <h3 class="font-display text-base font-bold text-ink-950 md:text-lg">
                 {faq.question}
               </h3>
               <span
-                class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-600 transition-all group-open:rotate-45 group-open:border-ink-950 group-open:bg-ink-950 group-open:text-white"
+                class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-ink-300 text-ink-600 transition-all group-open:rotate-45 group-open:border-ink-950 group-open:bg-ink-950 group-open:text-white"
                 aria-hidden="true"
               >
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -29,15 +39,36 @@ import { faqs } from '../data/site'
                 </svg>
               </span>
             </summary>
-            <p class="pb-7 pr-14 leading-relaxed text-ink-600">{faq.answer}</p>
+            <p class="pb-7 pr-0 leading-relaxed text-ink-600 md:pr-14">{faq.answer}</p>
           </details>
         ))
       }
     </div>
+
+    {/* Escape hatch. A page that answers twelve questions and offers no way to
+        ask a thirteenth reads as a wall, not as helpfulness. */}
+    <p class="reveal mx-auto mt-10 max-w-3xl text-center text-sm leading-relaxed text-ink-600">
+      Still not answered? Call{' '}
+      <a
+        href={`tel:${primaryPhone.raw}`}
+        class="font-semibold text-brand-700 underline underline-offset-4 hover:text-brand-800"
+      >
+        {primaryPhone.display}
+      </a>
+      {' '}or email{' '}
+      <a
+        href={`mailto:${company.email}`}
+        class="font-semibold text-brand-700 underline underline-offset-4 hover:text-brand-800"
+      >
+        {company.email}
+      </a>
+      {' '}and you will get a straight answer, including if the answer is no.
+    </p>
   </div>
 </section>
 
-{/* FAQ structured data — can earn an expanded result in Google search. */}
+{/* FAQ structured data — can earn an expanded result in Google search, and
+    costs nothing since the copy already exists. */}
 <script
   type="application/ld+json"
   set:html={JSON.stringify({

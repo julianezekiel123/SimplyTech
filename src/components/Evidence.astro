@@ -1,0 +1,44 @@
+---
+import SectionHeading from './SectionHeading.astro'
+import { evidence } from '../data/site'
+---
+
+{/*
+  This is the page's substitute for testimonials, and it works precisely
+  because it is not about us. Published, dated, attributed research about the
+  problem carries authority that a new company's own claims cannot, and it is
+  verifiable — which is the whole point for a reader who arrived suspicious.
+
+  The sources are printed in full rather than hidden behind a link, because a
+  citation you can read without clicking is a citation people actually trust.
+*/}
+<section id="evidence" class="border-y border-ink-200/70 bg-white py-20 md:py-28">
+  <div class="container-page">
+    <SectionHeading
+      eyebrow={evidence.eyebrow}
+      headline={evidence.headline}
+      intro={evidence.intro}
+      align="left"
+    />
+
+    <dl class="mt-14 grid gap-8 md:grid-cols-3 md:gap-10">
+      {
+        evidence.stats.map((stat, i) => (
+          <div class="reveal border-t-2 border-ink-950 pt-6" data-reveal-delay={i * 90}>
+            <dt class="font-display text-5xl font-bold tracking-tight text-ink-950 tabular-nums md:text-6xl">
+              {stat.figure}
+            </dt>
+            <dd class="mt-4">
+              <p class="leading-relaxed text-ink-700">{stat.body}</p>
+              <p class="mt-4 text-xs leading-relaxed text-ink-500">{stat.source}</p>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <p class="reveal mt-12 max-w-3xl border-l-2 border-brand-600 pl-5 leading-relaxed text-ink-600">
+      {evidence.footnote}
+    </p>
+  </div>
+</section>

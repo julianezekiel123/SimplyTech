@@ -1,0 +1,134 @@
+---
+import Legal from '../layouts/Legal.astro'
+import { company, legal } from '../data/site'
+
+/**
+ * These terms deliberately match what the marketing page promises. If you
+ * change the commercial terms in `site.ts`, change them here the same day —
+ * a customer who spots the page and the contract disagreeing will assume the
+ * more expensive one is the real one, and they will be right to.
+ *
+ * TODO before you run paid ads: have somebody qualified read this.
+ */
+---
+
+<Legal
+  title="Terms"
+  heading="Terms of service"
+  intro="The terms we work under. They are short on purpose, and they say the same thing the rest of the site says."
+>
+  <h2>Who these terms are with</h2>
+  <p>
+    These terms cover services provided by {company.legalName}, operating from{' '}
+    {company.location}, to the business that engages us. They apply from the
+    point we begin setting up your service.
+  </p>
+
+  <h2>What we provide</h2>
+  <p>
+    Phone answering, lead follow-up, and appointment booking, configured for
+    your business and run on your behalf. The specific scope for your account is
+    whatever we agree in writing before setup — the descriptions on this website
+    are what the service does generally, not a fixed list of what your account
+    includes.
+  </p>
+
+  <h2>Setup</h2>
+  <p>
+    Configuration, test calls, calendar connection and the tuning that follows
+    go-live are included at no extra charge. Setup needs your input: what you do,
+    the area you cover, your prices, and what counts as urgent. We cannot build
+    an accurate assistant without it, and delays in getting it are the usual
+    reason a go-live slips.
+  </p>
+
+  <h2>Fees and your rate</h2>
+  <p>
+    Fees are agreed in writing before your service begins and billed monthly in
+    advance. The rate you start on is the rate you keep for as long as your
+    service runs continuously. If our standard pricing rises later, it applies
+    to new customers, not to you.
+  </p>
+  <p>
+    Plans are sized to your call volume. If your usage moves well beyond the
+    band your plan covers, we will tell you before anything changes and agree a
+    plan that fits, rather than issuing a surprise invoice.
+  </p>
+
+  <h2>Cancellation</h2>
+  <p>
+    Month to month, with no minimum term and no notice period. Tell us you want
+    to stop and we will stop at the end of your current paid month. There is no
+    cancellation fee and no charge for exporting your own data.
+  </p>
+
+  <h2>Your number and your data</h2>
+  <p>
+    Your phone number remains yours throughout and is unaffected by leaving.
+    Call recordings, transcripts, contact records and booking history belong to
+    you. You may export them at any time, including on the way out, and ask us
+    to delete our copies afterwards.
+  </p>
+
+  <h2>What the service can and cannot do</h2>
+  <p>
+    The assistant is configured not to quote prices, commit to timescales, or
+    answer technical questions it has not been given answers to. It takes a
+    message or transfers the call instead. It is a well-built system rather than
+    a person, and like any system it can misunderstand a caller. You keep
+    control: you see every booking as it happens and can change or cancel it.
+  </p>
+  <p>
+    We do not guarantee a particular number of bookings, a particular revenue
+    figure, or uninterrupted service. The calculator on our website is
+    arithmetic on figures you enter, and is an illustration of what missed calls
+    may be costing you — not a forecast, a promise, or a projection of results.
+  </p>
+
+  <h2>Availability and dependencies</h2>
+  <p>
+    The service relies on third-party telephony, voice, and calendar providers,
+    and on your own phone service and internet connection. Outages in any of
+    those can interrupt it. We will tell you when we know about a problem and
+    fix what is ours to fix.
+  </p>
+
+  <h2>Your responsibilities</h2>
+  <ul>
+    <li>Give us accurate information about your business, and tell us when it changes</li>
+    <li>Hold the rights to the phone number and calendar you ask us to connect</li>
+    <li>Comply with the laws that apply to your own customer communications</li>
+    <li>
+      Tell us before go-live if you handle medical, clinical, or other regulated
+      personal information, so it can be dealt with properly rather than
+      discovered later
+    </li>
+  </ul>
+
+  <h2>Liability</h2>
+  <p>
+    Our liability in connection with the service is limited to the fees you paid
+    us in the three months before the claim arose. We are not liable for lost
+    profits, lost business, or indirect losses. Nothing here limits liability
+    that cannot lawfully be limited.
+  </p>
+
+  <h2>Governing law</h2>
+  <p>
+    These terms are governed by the laws of {legal.governingLaw}.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    If we change these terms in a way that affects you, we will email you before
+    the change takes effect. Continuing to use the service after that means you
+    accept it; if you would rather not, cancel, and nothing further is owed.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Anything about these terms goes to{' '}
+    <a href={`mailto:${company.email}`}>{company.email}</a>, or call{' '}
+    <a href={`tel:${company.phones[0].raw}`}>{company.phones[0].display}</a>.
+  </p>
+</Legal>

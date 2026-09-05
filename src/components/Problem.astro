@@ -3,7 +3,7 @@ import SectionHeading from './SectionHeading.astro'
 import { problem } from '../data/site'
 ---
 
-<section class="bg-white py-24 md:py-32">
+<section id="problem" class="bg-paper py-24 md:py-32">
   <div class="container-page">
     <SectionHeading
       eyebrow={problem.eyebrow}
@@ -12,13 +12,15 @@ import { problem } from '../data/site'
       align="left"
     />
 
-    <div class="mt-14 grid gap-px overflow-hidden rounded-3xl border border-ink-100 bg-ink-100 sm:grid-cols-2">
+    {/* One-pixel gaps over an ink background give a hairline grid without
+        four separate borders meeting at doubled thickness in the corners. */}
+    <div class="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ink-200 bg-ink-200 sm:grid-cols-2">
       {
         problem.pains.map((pain, i) => (
           <div class="reveal bg-white p-8 md:p-10" data-reveal-delay={i * 70}>
             <div class="flex items-start gap-4">
               <span
-                class="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-ink-950/[0.04] font-display text-xs font-bold text-ink-500"
+                class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-ink-100 font-display text-xs font-bold text-ink-500"
                 aria-hidden="true"
               >
                 {String(i + 1).padStart(2, '0')}

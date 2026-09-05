@@ -2,36 +2,45 @@
 import { hero, primaryPhone } from '../data/site'
 ---
 
-<section id="top" class="relative overflow-hidden bg-white pt-32 pb-20 md:pt-44 md:pb-28">
-  {/* Background: a soft brand wash and a faint grid. Purely decorative. */}
+{/*
+  The fold has four jobs and no others: say what this is, say who it is for,
+  offer one action, and defuse the first hesitation before it forms. The
+  trust strip under the buttons is that last job — it answers "what does
+  this cost me in effort and what breaks" without being asked.
+*/}
+<section id="top" class="relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
+  {/* Decorative ground: a warm wash and a faint grid that fades out. */}
   <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
     <div
-      class="absolute left-1/2 top-[-18rem] h-[36rem] w-[72rem] -translate-x-1/2 rounded-full bg-brand-100/50 blur-3xl"
+      class="absolute left-1/2 top-[-24rem] h-[42rem] w-[80rem] -translate-x-1/2 rounded-full bg-brand-100/45 blur-3xl"
     >
     </div>
     <div
-      class="absolute inset-0 opacity-[0.035]"
-      style="background-image: linear-gradient(to right, #0f1524 1px, transparent 1px), linear-gradient(to bottom, #0f1524 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, black 40%, transparent 100%); -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, black 40%, transparent 100%);"
+      class="absolute inset-0 opacity-[0.045]"
+      style="background-image: linear-gradient(to right, #100f0d 1px, transparent 1px), linear-gradient(to bottom, #100f0d 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, black 35%, transparent 100%); -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, black 35%, transparent 100%);"
     >
     </div>
   </div>
 
   <div class="container-page">
     <div class="mx-auto max-w-4xl text-center">
-      <p class="reveal mb-6 inline-flex items-center gap-2 rounded-full border border-ink-200 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-ink-600">
-        <span class="h-1.5 w-1.5 rounded-full bg-brand-500" aria-hidden="true"></span>
-        {hero.eyebrow}
+      <p
+        class="reveal mb-7 inline-flex items-center gap-2.5 rounded-full border border-ink-200 bg-white/70 py-1.5 pl-2 pr-4 text-[0.8125rem] font-medium text-ink-700 backdrop-blur-sm"
+      >
+        <span class="relative flex h-2 w-2" aria-hidden="true">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-70"
+          ></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-600"></span>
+        </span>
+        {hero.chip}
       </p>
 
-      <h1
-        class="reveal font-display text-4xl font-extrabold leading-[1.08] text-ink-950 sm:text-5xl md:text-6xl lg:text-7xl"
-        data-reveal-delay="60"
-      >
+      <h1 class="reveal display-1 font-display font-bold text-ink-950" data-reveal-delay="60">
         {hero.headline}
       </h1>
 
       <p
-        class="reveal mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-600 md:text-xl"
+        class="reveal mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-600 md:text-xl md:leading-relaxed"
         data-reveal-delay="120"
       >
         {hero.subhead}
@@ -43,7 +52,7 @@ import { hero, primaryPhone } from '../data/site'
       >
         <a
           href="#demo"
-          class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink-950 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-ink-950/10 transition-all hover:bg-brand-600 hover:shadow-xl hover:shadow-brand-600/20 sm:w-auto"
+          class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink-950 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-ink-950/10 transition-all hover:bg-brand-700 hover:shadow-xl hover:shadow-brand-700/20 sm:w-auto"
         >
           {hero.primaryCta}
           <svg
@@ -59,9 +68,9 @@ import { hero, primaryPhone } from '../data/site'
         </a>
         <a
           href={`tel:${primaryPhone.raw}`}
-          class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink-200 bg-white px-8 py-4 text-base font-semibold text-ink-900 transition-all hover:border-ink-300 hover:bg-ink-50 sm:w-auto"
+          class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink-300 bg-white/60 px-8 py-4 text-base font-semibold text-ink-900 transition-all hover:border-ink-400 hover:bg-white sm:w-auto"
         >
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="h-4 w-4 text-brand-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -73,27 +82,39 @@ import { hero, primaryPhone } from '../data/site'
       </div>
 
       <p class="reveal mt-5 text-sm text-ink-500" data-reveal-delay="220">{hero.reassurance}</p>
+
+      {/* Trust strip. Four checkable facts, immediately under the action. */}
+      <ul
+        class="reveal mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5"
+        data-reveal-delay="260"
+      >
+        {
+          hero.trustStrip.map((item) => (
+            <li class="flex items-center gap-2 text-[0.8125rem] font-medium text-ink-600">
+              <svg
+                class="h-3.5 w-3.5 shrink-0 text-brand-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+              </svg>
+              {item}
+            </li>
+          ))
+        }
+      </ul>
     </div>
 
-    {/* Three concrete differentiators */}
-    <ul
-      class="reveal mx-auto mt-16 grid max-w-4xl gap-4 sm:grid-cols-3"
-      data-reveal-delay="260"
-    >
+    {/* Three concrete capabilities, phrased as outcomes rather than features. */}
+    <ul class="reveal mx-auto mt-16 grid max-w-5xl gap-4 sm:grid-cols-3 md:mt-20" data-reveal-delay="300">
       {
         hero.highlights.map((item) => (
-          <li class="flex items-start gap-3 rounded-2xl border border-ink-100 bg-white/70 p-5 text-left">
-            <svg
-              class="mt-0.5 h-5 w-5 shrink-0 text-brand-600"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.25"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-            </svg>
-            <span class="text-sm font-medium leading-snug text-ink-800">{item}</span>
+          <li class="rounded-2xl border border-ink-200/80 bg-white/70 p-6 text-left backdrop-blur-sm">
+            <h2 class="font-display text-base font-bold text-ink-950">{item.title}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">{item.body}</p>
           </li>
         ))
       }

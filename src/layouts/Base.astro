@@ -2,16 +2,21 @@
 import '../styles/global.css'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
+import MobileActionBar from '../components/MobileActionBar.astro'
 import { company, seo } from '../data/site'
 
 interface Props {
   title?: string
   description?: string
+  /** Legal and other secondary pages should not appear in search results
+   *  ahead of the page that actually sells. */
+  noindex?: boolean
 }
 
-const { title = seo.title, description = seo.description } = Astro.props
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://example.com').toString()
-const ogImage = new URL(seo.ogImage, Astro.site ?? 'https://example.com').toString()
+const { title = seo.title, description = seo.description, noindex = false } = Astro.props
+const fallbackOrigin = 'https://simplytech.me'
+const canonical = new URL(Astro.url.pathname, Astro.site ?? fallbackOrigin).toString()
+const ogImage = new URL(seo.ogImage, Astro.site ?? fallbackOrigin).toString()
 ---
 
 <html lang="en">
@@ -19,43 +24,59 @@ const ogImage = new URL(seo.ogImage, Astro.site ?? 'https://example.com').toStri
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#faf9f6" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
-    {/* Open Graph / social sharing */}
+    {/* Open Graph / social sharing. A pasted link with no preview card looks
+        more like spam, which matters when your traffic arrives from email. */}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content={company.name} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    {/* Fonts. Preconnect first so the stylesheet request starts sooner. */}
+    {/* Fonts. Preconnect so the stylesheet request starts before the HTML
+        finishes parsing; `display=swap` means text is never invisible. */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@600;700&display=swap"
     />
 
-    {/* Structured data — helps Google show your business correctly in search */}
+    {/* Structured data. Helps Google render the business correctly and gives
+        anyone checking the page a machine-readable identity to look at. */}
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
         name: company.name,
+        legalName: company.legalName,
         description: seo.description,
         url: company.domain,
         email: company.email,
+        image: ogImage,
         telephone: company.phones.map((p) => p.raw),
+        areaServed: 'Worldwide',
+        address: { '@type': 'PostalAddress', addressCountry: company.location },
+        contactPoint: company.phones.map((p) => ({
+          '@type': 'ContactPoint',
+          telephone: p.raw,
+          contactType: 'sales',
+        })),
       })}
     />
   </head>
@@ -73,6 +94,7 @@ const ogImage = new URL(seo.ogImage, Astro.site ?? 'https://example.com').toStri
       <slot />
     </main>
     <Footer />
+    <MobileActionBar />
 
     <script>
       // Reveal-on-scroll. Progressive enhancement: elements are visible by
@@ -93,7 +115,7 @@ const ogImage = new URL(seo.ogImage, Astro.site ?? 'https://example.com').toStri
               observer.unobserve(entry.target)
             })
           },
-          { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
         )
         targets.forEach((el) => observer.observe(el))
       }

@@ -1,23 +1,51 @@
 ---
 import SectionHeading from './SectionHeading.astro'
-import { about } from '../data/site'
+import { about, company, primaryPhone } from '../data/site'
 ---
 
-<section id="about" class="bg-ink-50/60 py-24 md:py-32">
+{/*
+  Carries unusual weight for cold traffic: this is where a stranger decides a
+  real person is behind the page. So it names where the business operates from
+  and repeats a phone number — an unlocatable company reads as a scam, and the
+  cost of stating both is nothing.
+*/}
+<section id="about" class="bg-paper py-24 md:py-32">
   <div class="container-page">
     <div class="grid gap-14 lg:grid-cols-2 lg:gap-20">
       <div>
         <SectionHeading eyebrow={about.eyebrow} headline={about.headline} align="left" />
+
         <div class="reveal mt-7 space-y-5" data-reveal-delay="80">
           {about.body.map((para) => <p class="text-lg leading-relaxed text-ink-600">{para}</p>)}
         </div>
+
+        <dl
+          class="reveal mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-ink-200 pt-7"
+          data-reveal-delay="140"
+        >
+          <div>
+            <dt class="eyebrow text-ink-400">Based in</dt>
+            <dd class="mt-1.5 font-display text-base font-bold text-ink-900">{company.location}</dd>
+          </div>
+          <div>
+            <dt class="eyebrow text-ink-400">Reach a person on</dt>
+            <dd class="mt-1.5">
+              <a
+                href={`tel:${primaryPhone.raw}`}
+                class="font-display text-base font-bold text-ink-900 underline decoration-brand-400 decoration-2 underline-offset-4 hover:text-brand-700"
+              >
+                {primaryPhone.display}
+              </a>
+            </dd>
+          </div>
+        </dl>
       </div>
 
       <ul class="space-y-4 lg:pt-16">
         {
           about.principles.map((principle, i) => (
             <li
-              class="reveal rounded-2xl border border-ink-100 bg-white p-7"
+              class="reveal rounded-2xl border border-ink-200 bg-white p-7"
               data-reveal-delay={i * 80}
             >
               <h3 class="font-display text-base font-bold text-ink-950">{principle.title}</h3>
@@ -27,6 +55,5 @@ import { about } from '../data/site'
         }
       </ul>
     </div>
-
   </div>
 </section>

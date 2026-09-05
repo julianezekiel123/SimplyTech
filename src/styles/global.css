@@ -2,39 +2,50 @@
 
 /* ============================================================
    BRAND TOKENS
-   This is the only place colors and fonts are defined.
-   Swap the values here and the whole site follows.
+   The only place colors, type, and motion are defined.
+   Change a value here and the whole site follows.
    ============================================================ */
 @theme {
-  /* --- Brand accent. Replace with your brand color. ---------
-     Generate a full ramp at https://uicolors.app if you change it. */
-  --color-brand-50:  #eef3ff;
-  --color-brand-100: #dbe4ff;
-  --color-brand-200: #bccdff;
-  --color-brand-300: #93aaff;
-  --color-brand-400: #687dff;
-  --color-brand-500: #4553f5;
-  --color-brand-600: #3238e0;
-  --color-brand-700: #2a2bb8;
-  --color-brand-800: #262894;
-  --color-brand-900: #242a75;
+  /* --- Accent: deep emerald. Reads "money, reliable, established"
+         and deliberately avoids the indigo every AI tool uses. ------- */
+  --color-brand-50:  #edf7f1;
+  --color-brand-100: #d3ebdc;
+  --color-brand-200: #a9d7bc;
+  --color-brand-300: #74bc96;
+  --color-brand-400: #459e73;
+  --color-brand-500: #1f8055;
+  --color-brand-600: #146845;
+  --color-brand-700: #105338;
+  --color-brand-800: #0e422e;
+  --color-brand-900: #0c3626;
+  --color-brand-950: #061f16;
 
-  /* --- Ink: the near-black used for headlines and dark sections --- */
-  --color-ink-50:  #f6f7f9;
-  --color-ink-100: #eceef2;
-  --color-ink-200: #d5dae3;
-  --color-ink-300: #b0b9c9;
-  --color-ink-400: #8493aa;
-  --color-ink-500: #64748f;
-  --color-ink-600: #4e5c76;
-  --color-ink-700: #404b60;
-  --color-ink-800: #374052;
-  --color-ink-900: #0f1524;
-  --color-ink-950: #080c17;
+  /* --- Ink: a warm neutral ramp, not a cool grey. Warm greys read as
+         "designed"; cool greys read as "bootstrap default". ---------- */
+  --color-ink-50:  #f7f6f3;
+  --color-ink-100: #edebe6;
+  --color-ink-200: #dedbd3;
+  --color-ink-300: #c2bdb1;
+  --color-ink-400: #9c968a;
+  --color-ink-500: #7a7468;
+  --color-ink-600: #5e594f;
+  --color-ink-700: #494540;
+  --color-ink-800: #2e2b27;
+  --color-ink-900: #1c1a17;
+  --color-ink-950: #100f0d;
+
+  /* --- Signal: used only for the money-leaking figure. One job. ----- */
+  --color-signal-300: #f0b48c;
+  --color-signal-500: #c2721a;
+  --color-signal-600: #a35a12;
+
+  /* --- Paper: a warm off-white page ground instead of pure white.
+         Single cheapest change that makes a site look expensive. ----- */
+  --color-paper: #faf9f6;
 
   /* --- Type --- */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ============================================================
@@ -44,60 +55,101 @@
   html {
     scroll-behavior: smooth;
     /* Offset anchor jumps so the sticky header doesn't cover section titles */
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: white;
+    background-color: var(--color-paper);
     color: var(--color-ink-900);
     font-family: var(--font-sans);
+    font-feature-settings: "cv05" 1, "ss01" 1;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Clears the fixed mobile action bar so nothing hides behind it. */
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.032em;
     text-wrap: balance;
   }
 
-  p {
-    text-wrap: pretty;
-  }
+  p, li { text-wrap: pretty; }
 
   /* Visible focus ring for keyboard users, suppressed for mouse clicks */
   :focus-visible {
     outline: 2px solid var(--color-brand-600);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-200);
+    color: var(--color-ink-950);
   }
 }
 
 /* ============================================================
-   UTILITIES
+   LAYOUT UTILITIES
    ============================================================ */
 @utility container-page {
   margin-inline: auto;
   width: 100%;
-  max-width: 76rem;
+  max-width: 78rem;
   padding-inline: 1.25rem;
 }
 
-/* Scroll-triggered reveal. Elements start hidden and fade up when
-   they enter the viewport (see the IntersectionObserver in Base.astro).
-   If JS is off or the user prefers reduced motion, they just show. */
+/* Fluid type. Scales continuously between mobile and desktop rather than
+   stepping at breakpoints — the 2026 default, and it removes a whole class
+   of "headline breaks awkwardly at 900px" bugs. */
+@utility display-1 {
+  font-size: clamp(2.5rem, 1.35rem + 4.6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+@utility display-2 {
+  font-size: clamp(1.95rem, 1.35rem + 2.5vw, 3.35rem);
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+}
+
+@utility display-3 {
+  font-size: clamp(1.4rem, 1.15rem + 1.05vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+/* Small caps label used above every section headline. */
+@utility eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Scroll-triggered reveal. Elements start hidden and fade up when they
+   enter the viewport (IntersectionObserver lives in Base.astro). With JS
+   off or reduced motion on, they simply show. */
 @utility reveal {
   opacity: 0;
-  transform: translateY(1.25rem);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(1rem);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer utilities {
   .reveal.is-visible {
     opacity: 1;
     transform: none;
+  }
+
+  /* Hairline that reads as a rule, not a border, on warm paper. */
+  .rule {
+    background-image: linear-gradient(to right, transparent, var(--color-ink-200), transparent);
+    height: 1px;
   }
 
   @media (prefers-reduced-motion: reduce) {

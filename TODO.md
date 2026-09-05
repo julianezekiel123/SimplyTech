@@ -4,50 +4,49 @@ Ordered by what actually blocks you. Tick as you go.
 
 Live: <https://simplytech.me> · Repo: <https://github.com/julianezekiel123/SimplyTech>
 
+**Nothing on this list is currently rendering broken text to visitors.** The
+old checklist had two items that were — the word "TODO" printing in the About
+section, and dead `/privacy` and `/terms` links. Both are fixed.
+
 ---
 
-## 1. Blocking — visible placeholder text on the live site
+## 1. The single highest-value edit available to you
 
-**These render as-is to anyone who opens the page right now.**
-
-- [ ] **`about.body` literally prints the word "TODO"**
-      → [`src/data/site.ts`](src/data/site.ts), section 11
-      Two or three sentences in your own voice: why you're doing this, what you
-      were doing before. This is where a stranger decides you're a real person.
-      Write it badly and send it to me — I'll tidy it.
-
-- [ ] **The sample call transcript is invented**
+- [ ] **Replace the sample call transcript with a real one**
       → [`src/data/site.ts`](src/data/site.ts), section 7 (`demo.transcript`)
       Run one real test call and paste what actually happened, awkward pauses
-      included. It's the only proof on the page, and a real one reads differently
-      from a written one. Highest-value single edit available to you.
+      included. It is the only first-party proof on the page, and a real one
+      reads differently from a written one. People can tell.
 
 ---
 
 ## 2. Decisions only you can make
 
-- [ ] **What the price-lock actually includes**
-      → `commercials.terms`, the "Your price never goes up" entry
-      The site promises a permanently locked price. AI voice bills you per minute,
-      every month, forever — so an unlimited-usage promise turns a heavy caller
-      into a permanent loss you can't exit. Say "locked permanently, includes up
-      to N minutes/month" instead. Work out your per-minute cost first.
-
 - [ ] **Publish a price, or don't**
       → `showStartingPrice` (currently `false`) and `startingPrice`
       Flip to `true` once you know your costs. Until then the site explains the
-      shape of the deal without naming a number, which is the right call.
+      shape of the deal without naming a number, and the FAQ answers the real
+      anxiety underneath the question, which is the right call.
 
 - [ ] **Trim the services list to what you can deliver this month**
-      → `services` array. Anything you can't set up for a real client, cut.
+      → `services` array. Anything you cannot set up for a real client, cut.
+      Anything aspirational here becomes a promise you walk back on a call.
 
-- [ ] **Confirm the early-access terms you'll honor**
-      → `founding.terms`. A discount you don't give, or scarcity you don't
-      enforce, is something your first customers will eventually notice.
+- [ ] **Confirm the terms you will honour**
+      → `commercials.terms` and `founding.terms`, and the matching wording in
+      [`src/pages/terms.astro`](src/pages/terms.astro). They agree right now.
+      Keep them agreeing — a customer who spots the page and the contract
+      disagreeing will assume the more expensive one is real, and be right to.
+
+- [ ] **Add one sentence of your own to the About section**
+      → `about.body`, section 11. Optional, and worth doing. What you were
+      doing before this and why you picked this problem. Do not invent a
+      career; the copy stands without one. One true sentence beats three
+      impressive ones.
 
 - [ ] **Set the default currency**
-      → `defaultCurrency` in `site.ts`, currently `'USD'`. Change to `'PHP'` if
-      most visitors are local.
+      → `defaultCurrency`, currently `'USD'`. Change to `'PHP'` if most
+      visitors are local.
 
 ---
 
@@ -55,78 +54,87 @@ Live: <https://simplytech.me> · Repo: <https://github.com/julianezekiel123/Simp
 
 - [ ] **Business email on your own domain** — `hello@simplytech.me`
       → `company.email`, currently your personal Gmail
-      Fine while leads come from people who know you. Not fine when a stranger is
-      deciding if you're a real company, and Gmail can't send cold email at volume
-      without getting suspended. Zoho Mail has a free tier; Google Workspace is
-      ~$7/month.
+      Fine while leads come from people who know you. Not fine when a stranger
+      is deciding whether you are a real company, and Gmail cannot send cold
+      email at volume without getting suspended. Zoho Mail has a free tier;
+      Google Workspace is about $7/month.
 
-- [ ] **Fix the listed hours** — `company.hours` says `Mon–Fri, 8am–6pm ET`
-      Your Twilio number forwards to your PH mobile, and 8am–6pm ET is 8pm–6am in
-      Manila. Either state hours you'll genuinely answer, or point that Twilio
-      number at your own AI receptionist. The second option covers the gap *and*
-      demos the product on first contact — a company selling call answering that
-      misses its own calls is the one thing you can't explain away.
+- [ ] **Fix the listed hours** — `company.hours` now says
+      `Mon–Fri, 9am–6pm Manila time`, which is at least honest about the
+      timezone. Better: point that Twilio number at your own assistant. It
+      covers the gap *and* demos the product on first contact. A company
+      selling call answering that misses its own calls is the one thing you
+      cannot explain away.
 
-- [ ] **LinkedIn URL** → `company.linkedin`. Leave blank and the link hides itself.
-      Worth having: it's a cheap trust signal for cold traffic.
+- [ ] **Narrow the location** — `company.location` says `Philippines`. A city
+      reads as more real than a country. It appears in the About section, the
+      footer, the FAQ answer about who you are, and the structured data.
+
+- [ ] **LinkedIn URL** → `company.linkedin`. Leave blank and the link hides
+      itself. Worth having: a cheap trust signal for cold traffic.
 
 ---
 
 ## 4. Brand assets
 
-- [ ] **Logo** — currently an "S" letter tile
-      → `Header.astro` and `Footer.astro`; swap the `<span>` for `<img src="/logo.svg">`
-
-- [ ] **Favicon** → replace `public/favicon.svg` (currently a matching "S" tile)
-
-- [ ] **Social share image** → add a 1200×630 PNG at `public/og-image.png`
-      This is the preview card when your link is pasted into Messenger, Slack, or
-      WhatsApp. A link with no card looks more like spam. Ten minutes in Canva.
+- [x] **Logo** — a waveform mark in `src/components/Logo.astro`, used in the
+      header, the footer and the share card. Swap the SVG if you get a real one
+      drawn, and update `public/favicon.svg` to match.
+- [x] **Favicon** — matches the logo.
+- [x] **Social share image** — `public/og-image.png`, 1200×630, generated by
+      `npm run og` from the brand tokens rather than living in a Canva account.
+      Edit `scripts/make-og-image.mjs` and rerun to change it.
 
 ---
 
-## 5. Legal — before any cold outreach
+## 5. Legal
 
-- [ ] **Privacy policy and terms pages**
-      The footer links to `/privacy` and `/terms`; both are 404 right now.
-      Near-mandatory for a business sending cold email, and a trust signal for
-      exactly the traffic you're planning.
-
-- [ ] **Call recording consent**
-      The site promises clients transcripts and recordings. Around a dozen US
-      states require *all* parties to consent, not just one. Standard fix is a
-      spoken notice at the start of the call. Sort before your first client.
-
-- [ ] **Decide your position on medical callers**
-      The FAQ already flags that clinics and med spas need handling separately —
-      patient data puts you in HIPAA scope and you'd need a BAA from your voice
-      provider. Most budget providers won't sign one. Don't stumble into it
-      because a med spa happens to reply.
+- [x] **Privacy policy and terms pages** — written and live at `/privacy` and
+      `/terms`. They describe what this site and this business actually do
+      rather than being generated boilerplate, which matters: a policy
+      describing cookies you do not set is worse than none.
+- [ ] **Have someone qualified read both** before you run paid ads or sell into
+      the EU or UK.
+- [ ] **Call recording consent** — around a dozen US states require *all*
+      parties to consent. The privacy page already commits you to configuring a
+      spoken notice at the start of the call. Make sure you actually do, before
+      your first client.
+- [ ] **Decide your position on medical callers** — the FAQ flags that clinics
+      and med spas need handling separately. Patient data puts you in HIPAA
+      scope and you would need a BAA from your voice provider; most budget
+      providers will not sign one. Do not stumble into it because a med spa
+      happens to reply.
 
 ---
 
 ## 6. When you start cold outreach
 
 - [ ] **Buy separate sending domains** for Instantly — never send from
-      `simplytech.me`. When a sending domain gets burned (some will, at volume),
-      your real domain's reputation survives. Prefer `.com` for these.
+      `simplytech.me`. When a sending domain gets burned, and at volume some
+      will, your real domain's reputation survives. Prefer `.com` for these.
 
 - [ ] **Keep the site and the email in sync.** If the offer changes in your
       sequences, change `commercials` and `founding` the same day. A page that
       contradicts the email destroys the trust the email just earned.
 
-- [ ] **Per-industry landing pages** — ask me and I'll wire the vertical up as a
-      single config value, so each campaign can point at a page whose transcript
-      and hero match the industry it's targeting.
+- [ ] **Per-industry landing pages** — ask me and I will wire the vertical up as
+      a single config value, so each campaign points at a page whose transcript
+      and hero match the industry it targets.
 
 - [ ] **Add analytics** (Plausible or Fathom, one script tag in `Base.astro`).
-      You'll want to know whether clickers read or bounce.
+      You will want to know whether clickers read or bounce. **Update
+      `/privacy` the same day** — it currently states truthfully that the site
+      runs no analytics and sets no cookies, and that has to stay true.
 
 ---
 
 ## Notes
 
 - `.me` renewal is roughly $20–25/year — the $2 was a first-year promo.
-- ICANN locks new domains against transfer for 60 days, so you can't move
-  `simplytech.me` to a cheaper registrar until early November 2026.
-- Updating the site is: I edit → `git push` → Vercel redeploys in about a minute.
+- ICANN locks new domains against transfer for 60 days, so `simplytech.me`
+  cannot move to a cheaper registrar until early November 2026.
+- Updating the site is: I edit → `git push` → Vercel redeploys in about a
+  minute.
+- The voice rule for any copy edit is in the README: state what is true about
+  how you operate, never that you are new. Every fact behind "we're early" is
+  still on the page. None of the apology is.
